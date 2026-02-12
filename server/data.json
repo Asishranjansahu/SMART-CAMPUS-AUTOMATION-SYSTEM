@@ -1,0 +1,271 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Asish Kumar Sahani"
+    },
+    {
+      "id": 2,
+      "name": "Sibani Swain"
+    },
+    {
+      "id": 3,
+      "name": "Renuka Swain"
+    },
+    {
+      "id": 4,
+      "name": "Asish Ranjan Sahu"
+    },
+    {
+      "id": 5,
+      "name": "Ankita Mahapatra"
+    }
+  ],
+  "attendance": [
+    {
+      "id": "9XA1mtTQa3Ub4UGbBMG2i",
+      "student_id": 1,
+      "date": "2026-02-12",
+      "status": "absent"
+    },
+    {
+      "id": "JHjp2KIt9z7u6EDSTFA8h",
+      "student_id": 2,
+      "date": "2026-02-12",
+      "status": "present"
+    },
+    {
+      "id": "oyDGiR7pQIq2QWHFq5uo4",
+      "student_id": 3,
+      "date": "2026-02-12",
+      "status": "present"
+    },
+    {
+      "id": "magye5EqYNAd25DvXC5EO",
+      "student_id": 4,
+      "date": "2026-02-12",
+      "status": "present"
+    },
+    {
+      "id": "7QqteUvvzMbCwfrsTYM_2",
+      "student_id": 5,
+      "date": "2026-02-12",
+      "status": "present"
+    }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "title": "Introduction to Computer Science",
+      "author": "John Smith",
+      "status": "borrowed"
+    },
+    {
+      "id": 2,
+      "title": "Advanced Mathematics",
+      "author": "Sarah Johnson",
+      "status": "borrowed"
+    },
+    {
+      "id": 3,
+      "title": "Modern Physics",
+      "author": "Michael Brown",
+      "status": "borrowed"
+    }
+  ],
+  "menu_items": [
+    {
+      "id": 1,
+      "name": "Breakfast Combo",
+      "price": 50,
+      "description": "Eggs, toast, and coffee",
+      "category": "Breakfast"
+    },
+    {
+      "id": 2,
+      "name": "Chicken Sandwich",
+      "price": 70,
+      "description": "Grilled chicken with fresh veggies",
+      "category": "Lunch"
+    },
+    {
+      "id": 3,
+      "name": "Vegetarian Pizza",
+      "price": 100,
+      "description": "Fresh vegetables and cheese",
+      "category": "Lunch"
+    }
+  ],
+  "orders": [
+    {
+      "id": "CtGAd86_-g4B1nU19AiZu",
+      "item_id": 1,
+      "user": "guest",
+      "time": "12:45:24 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "FEsf0j5ePt-92PixAhPMA",
+      "item_id": 1,
+      "user": "guest",
+      "time": "12:45:34 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "JMIo0Tw6wOsJsOk314lJt",
+      "item_id": 1,
+      "user": "guest",
+      "time": "12:45:35 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "uB3aGXyKFtMnaiUN9WaDE",
+      "item_id": 1,
+      "user": "guest",
+      "time": "12:46:32 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "Oh2XX4JskP7SOBriik886",
+      "item_id": 1,
+      "user": "guest",
+      "time": "12:46:32 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "k41g7uzjVzuKQyjKZ0_pf",
+      "item_id": 3,
+      "user": "guest",
+      "time": "12:46:33 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "GlmKApeM_sgIvDuYtDrDN",
+      "item_id": 2,
+      "user": "guest",
+      "time": "12:48:14 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "GTDHdzRfGgRV7buOTn562",
+      "item_id": 1,
+      "user": "guest",
+      "time": "12:48:15 AM",
+      "status": "Placed"
+    },
+    {
+      "id": "RuOQTfJ_uuHiFcKLNHhZp",
+      "item_id": 1,
+      "user": "guest",
+      "time": "1:12:51 AM",
+      "status": "Placed"
+    }
+  ],
+  "security_alerts": [
+    {
+      "id": "uzZmZPJUtqWgrN0yKASP7",
+      "type": "Gate Access",
+      "location": "Main Gate",
+      "time": "10:30 AM",
+      "status": "Resolved"
+    },
+    {
+      "id": "V645irl2dpqMged_p78kQ",
+      "type": "Motion Detected",
+      "location": "Library",
+      "time": "11:45 AM",
+      "status": "Active"
+    },
+    {
+      "id": "YNXDDpQJ--Gn5fVj8wk06",
+      "type": "Emergency",
+      "location": "Campus",
+      "time": "12:45:24 AM",
+      "status": "Active"
+    },
+    {
+      "id": "Kq-ZjHpJbwVna8ZpDWclM",
+      "type": "Emergency",
+      "location": "Campus",
+      "time": "12:45:38 AM",
+      "status": "Active"
+    },
+    {
+      "id": "YPQ13G4asfxv3ZT6I3ORl",
+      "type": "Emergency",
+      "location": "Campus",
+      "time": "12:46:51 AM",
+      "status": "Active"
+    },
+    {
+      "id": "oN4RHrYIs-ZAKyys3tdjC",
+      "type": "Emergency",
+      "location": "Campus",
+      "time": "1:12:53 AM",
+      "status": "Active"
+    },
+    {
+      "id": "R9pSrklVc3XUkOkzff50k",
+      "type": "Emergency",
+      "location": "Campus",
+      "time": "3:29:26 AM",
+      "status": "Active"
+    },
+    {
+      "id": "rLtLUxyMR1FuG0yzOntY8",
+      "type": "Emergency",
+      "location": "Campus",
+      "time": "3:29:27 AM",
+      "status": "Active"
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Conference Hall A",
+      "capacity": 100,
+      "features": "Projector, Sound System"
+    },
+    {
+      "id": 2,
+      "name": "Seminar Room",
+      "capacity": 30,
+      "features": "Whiteboard, TV"
+    },
+    {
+      "id": 3,
+      "name": "Computer Lab 1",
+      "capacity": 50,
+      "features": "50 PCs, Internet"
+    },
+    {
+      "id": 4,
+      "name": "Meeting Room",
+      "capacity": 10,
+      "features": "Round Table"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "ti9zW62n0D3GuT7gTmul3",
+      "roomId": 2,
+      "user": "Me",
+      "date": "2026-02-12",
+      "time": "13:00"
+    },
+    {
+      "id": "xAeTGVfKYep_P2Cmwopcd",
+      "roomId": 2,
+      "user": "Me",
+      "date": "2026-02-12",
+      "time": "13:00"
+    },
+    {
+      "id": "jhMoP40DOxZ61hOZtG6Rf",
+      "roomId": 1,
+      "user": "Me",
+      "date": "2026-02-12",
+      "time": "13:00"
+    }
+  ]
+}
