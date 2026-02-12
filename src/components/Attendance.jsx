@@ -1,5 +1,6 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import * as faceapi from '@vladmandic/face-api';
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,8 +68,34 @@ const Attendance = () => {
   // Face Recognition State
   const [isScanning, setIsScanning] = useState(false);
   const [scannedStudents, setScannedStudents] = useState([]);
-  const videoRef = React.useRef(null);
-  const streamRef = React.useRef(null);
+  const [modelsLoaded, setModelsLoaded] = useState(false);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const streamRef = useRef(null);
+
+  // Load Face API Models
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const MODEL_URL = '/models';
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+          faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        ]);
+        setModelsLoaded(true);
+        console.log("FaceAPI Models Loaded");
+      } catch (err) {
+        console.error("Error loading FaceAPI models:", err);
+        toast({
+            title: "Model Error",
+            description: "Failed to load face recognition models.",
+            variant: "destructive"
+        });
+      }
+    };
+    loadModels();
+  }, []);
 
   // Hierarchical Filters
   const [selectedCourse, setSelectedCourse] = useState("All");
@@ -87,9 +114,17 @@ const Attendance = () => {
   });
 
   const startScanning = async () => {
+    if (!modelsLoaded) {
+        toast({
+            title: "Loading Models",
+            description: "Please wait for face models to load...",
+        });
+        return;
+    }
+
     try {
       setIsScanning(true);
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -115,25 +150,69 @@ const Attendance = () => {
 
   useEffect(() => {
     let scanInterval;
-    if (isScanning) {
-      scanInterval = setInterval(() => {
-        // Simulate finding a student
-        if (Math.random() > 0.3 && students.length > 0) {
-          const randomStudent = students[Math.floor(Math.random() * students.length)];
-          
-          // Only mark if not already present or recently scanned
-          if (randomStudent.status !== 'present') {
-             handleMarkAttendance(randomStudent.id, 'present');
-             setScannedStudents(prev => [
-               { ...randomStudent, scanTime: new Date().toLocaleTimeString() },
-               ...prev.slice(0, 4) // Keep last 5
-             ]);
-          }
+    
+    const runDetection = async () => {
+        if (isScanning && videoRef.current && canvasRef.current && modelsLoaded) {
+            // Wait for video to be ready
+            if (videoRef.current.readyState < 2) return;
+
+            const video = videoRef.current;
+            const canvas = canvasRef.current;
+            
+            const displaySize = { width: video.videoWidth, height: video.videoHeight };
+            faceapi.matchDimensions(canvas, displaySize);
+
+            const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+                .withFaceLandmarks()
+                .withFaceDescriptors();
+            
+            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+            
+            // Clear previous drawings
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw detections
+            faceapi.draw.drawDetections(canvas, resizedDetections);
+            // faceapi.draw.drawFaceLandmarks(canvas, resizedDetections); // Optional: too cluttery
+
+            if (detections.length > 0 && students.length > 0) {
+                // Simulate identification
+                // In a real app, we would match detection.descriptor with stored descriptors
+                if (Math.random() > 0.8) { // Throttle recognition
+                    const randomStudent = students[Math.floor(Math.random() * students.length)];
+                    
+                    // Only mark if not already present or recently scanned
+                    const recentlyScanned = scannedStudents.some(s => s.id === randomStudent.id && 
+                        (new Date() - new Date('1970/01/01 ' + s.scanTime)) < 60000 // Simple check, improvement needed for real time
+                    );
+
+                    if (!recentlyScanned) {
+                        handleMarkAttendance(randomStudent.id, 'present');
+                        setScannedStudents(prev => {
+                           // Avoid duplicates in the list
+                           if (prev.find(p => p.id === randomStudent.id)) return prev;
+                           return [
+                             { ...randomStudent, scanTime: new Date().toLocaleTimeString() },
+                             ...prev.slice(0, 4) // Keep last 5
+                           ];
+                        });
+                        
+                        // Draw Name Box
+                        const box = resizedDetections[0].detection.box;
+                        const drawBox = new faceapi.draw.DrawBox(box, { label: randomStudent.id });
+                        drawBox.draw(canvas);
+                    }
+                }
+            }
         }
-      }, 2000);
+    };
+
+    if (isScanning) {
+      scanInterval = setInterval(runDetection, 200); // Run every 200ms
     }
     return () => clearInterval(scanInterval);
-  }, [isScanning, students]);
+  }, [isScanning, students, modelsLoaded, scannedStudents]);
 
   useEffect(() => {
     const load = async () => {
@@ -396,7 +475,17 @@ const Attendance = () => {
                 autoPlay 
                 muted 
                 playsInline
-                className="w-full h-full object-cover opacity-80"
+                onPlay={() => {
+                    // Ensure canvas matches video when play starts
+                    if (videoRef.current && canvasRef.current) {
+                         faceapi.matchDimensions(canvasRef.current, videoRef.current);
+                    }
+                }}
+                className="w-full h-full object-contain opacity-90"
+              />
+              <canvas 
+                ref={canvasRef}
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none"
               />
               
               {/* Scanning Overlay Effects */}
