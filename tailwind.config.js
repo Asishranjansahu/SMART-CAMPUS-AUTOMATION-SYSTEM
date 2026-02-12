@@ -87,11 +87,16 @@ module.exports = {
           '0%, 100%': { boxShadow: '0 0 10px #00f5ff' },
           '50%': { boxShadow: '0 0 20px #00f5ff, 0 0 10px #8b5cf6' },
         },
+        scan: {
+          '0%, 100%': { top: '0%' },
+          '50%': { top: '100%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'pulse-glow': 'pulse-glow 2s infinite',
+        scan: 'scan 2s ease-in-out infinite',
       },
     },
   },

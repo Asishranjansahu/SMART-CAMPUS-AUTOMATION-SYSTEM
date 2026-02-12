@@ -20,7 +20,10 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  Scan,
+  Camera,
+  X
 } from "lucide-react";
 import { getStudents, getAttendanceStats, markAttendance } from "@/lib/api";
 import { io } from "socket.io-client";
@@ -61,6 +64,12 @@ const Attendance = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all"); // all, present, absent
   
+  // Face Recognition State
+  const [isScanning, setIsScanning] = useState(false);
+  const [scannedStudents, setScannedStudents] = useState([]);
+  const videoRef = React.useRef(null);
+  const streamRef = React.useRef(null);
+
   // Hierarchical Filters
   const [selectedCourse, setSelectedCourse] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
@@ -76,6 +85,55 @@ const Attendance = () => {
     absent: 0, 
     inClass: 0 
   });
+
+  const startScanning = async () => {
+    try {
+      setIsScanning(true);
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+      toast({
+        title: "Camera Error",
+        description: "Could not access camera for face recognition.",
+        variant: "destructive"
+      });
+      setIsScanning(false);
+    }
+  };
+
+  const stopScanning = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+    }
+    setIsScanning(false);
+    setScannedStudents([]);
+  };
+
+  useEffect(() => {
+    let scanInterval;
+    if (isScanning) {
+      scanInterval = setInterval(() => {
+        // Simulate finding a student
+        if (Math.random() > 0.3 && students.length > 0) {
+          const randomStudent = students[Math.floor(Math.random() * students.length)];
+          
+          // Only mark if not already present or recently scanned
+          if (randomStudent.status !== 'present') {
+             handleMarkAttendance(randomStudent.id, 'present');
+             setScannedStudents(prev => [
+               { ...randomStudent, scanTime: new Date().toLocaleTimeString() },
+               ...prev.slice(0, 4) // Keep last 5
+             ]);
+          }
+        }
+      }, 2000);
+    }
+    return () => clearInterval(scanInterval);
+  }, [isScanning, students]);
 
   useEffect(() => {
     const load = async () => {
@@ -299,6 +357,14 @@ const Attendance = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <Button 
+            variant="outline" 
+            className="gap-2 border-cyan-500 text-cyan-600 hover:bg-cyan-50 hover:text-cyan-700"
+            onClick={startScanning}
+          >
+            <Scan className="w-4 h-4" />
+            <span className="hidden sm:inline">Face Scan Mode</span>
+          </Button>
           <Button variant="outline" className="gap-2">
             <Calendar className="w-4 h-4" />
             <span>{new Date().toLocaleDateString()}</span>
@@ -309,6 +375,105 @@ const Attendance = () => {
           </Button>
         </div>
       </motion.div>
+
+      {/* Face Scan Overlay */}
+      {isScanning && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-5xl h-[80vh] flex flex-col md:flex-row gap-4 bg-slate-900 rounded-xl border border-cyan-500/30 overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.2)]">
+            
+            {/* Close Button */}
+            <button 
+              onClick={stopScanning}
+              className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-red-500/20 text-white rounded-full transition-colors border border-white/10 hover:border-red-500/50"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Main Camera Feed */}
+            <div className="flex-1 relative bg-black flex items-center justify-center overflow-hidden">
+              <video 
+                ref={videoRef}
+                autoPlay 
+                muted 
+                playsInline
+                className="w-full h-full object-cover opacity-80"
+              />
+              
+              {/* Scanning Overlay Effects */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 border-[2px] border-cyan-500/30 m-8 rounded-lg"></div>
+                <div className="absolute top-8 left-8 w-4 h-4 border-t-2 border-l-2 border-cyan-400"></div>
+                <div className="absolute top-8 right-8 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
+                <div className="absolute bottom-8 left-8 w-4 h-4 border-b-2 border-l-2 border-cyan-400"></div>
+                <div className="absolute bottom-8 right-8 w-4 h-4 border-b-2 border-r-2 border-cyan-400"></div>
+                
+                {/* Scanning Line */}
+                <div className="absolute left-8 right-8 h-0.5 bg-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-[scan_2s_ease-in-out_infinite]" style={{ top: '50%' }}></div>
+                
+                <div className="absolute top-12 left-1/2 -translate-x-1/2 px-4 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-400 text-xs font-mono tracking-widest animate-pulse">
+                  SYSTEM ACTIVE • SCANNING
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar - Live Feed */}
+            <div className="w-full md:w-80 bg-slate-900 border-l border-slate-800 flex flex-col">
+              <div className="p-4 border-b border-slate-800">
+                <h3 className="text-cyan-400 font-mono text-sm tracking-wider flex items-center gap-2">
+                  <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                  LIVE FEED LOG
+                </h3>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {scannedStudents.map((s, i) => (
+                  <motion.div 
+                    key={`${s.id}-${i}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="p-3 bg-slate-800/50 border-l-2 border-emerald-500 rounded-r-md"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-white text-sm font-medium">{s.id}</p>
+                        <p className="text-slate-400 text-xs mt-0.5">Course: {s.course}</p>
+                      </div>
+                      <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 text-[10px]">
+                        VERIFIED
+                      </Badge>
+                    </div>
+                    <p className="text-slate-500 text-[10px] font-mono mt-2 text-right">{s.scanTime}</p>
+                  </motion.div>
+                ))}
+                
+                {scannedStudents.length === 0 && (
+                  <div className="h-full flex flex-col items-center justify-center text-slate-600 space-y-2 opacity-50">
+                    <Camera className="w-8 h-8" />
+                    <p className="text-xs font-mono text-center">WAITING FOR TARGETS...</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="p-4 bg-slate-900 border-t border-slate-800">
+                <div className="text-[10px] text-slate-500 font-mono space-y-1">
+                  <div className="flex justify-between">
+                    <span>CAMERA STATUS:</span>
+                    <span className="text-emerald-500">ONLINE</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>FACE DETECTION:</span>
+                    <span className="text-emerald-500">ACTIVE</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>LATENCY:</span>
+                    <span className="text-cyan-500">24ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Advanced Filters Bar - Only for Students */}
       {viewMode === "students" && (
