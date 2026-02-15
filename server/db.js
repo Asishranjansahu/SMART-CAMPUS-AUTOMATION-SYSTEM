@@ -3,14 +3,16 @@ import { JSONFile } from 'lowdb/node';
 import path from 'node:path';
 import { nanoid } from 'nanoid';
 
-const adapter = new JSONFile(path.join(process.cwd(), 'server', 'data.json'));
+const adapter = new JSONFile(path.join(process.cwd(), 'data.json'));
 const db = new Low(adapter, {
   students: [],
   attendance: [],
   books: [],
   menu_items: [],
   orders: [],
-  security_alerts: []
+  security_alerts: [],
+  rooms: [],
+  bookings: []
 });
 await db.read();
 const write = async () => { await db.write(); };
@@ -53,11 +55,28 @@ const seedIfEmpty = async () => {
       { id: nanoid(), type: 'Motion Detected', location: 'Library', time: '11:45 AM', status: 'Active' }
     ];
   }
+  if (!db.data.rooms) db.data.rooms = [];
+  if (!db.data.bookings) db.data.bookings = [];
+  
+  if (!db.data.rooms.length) {
+    db.data.rooms = [
+      { id: 1, name: 'Conference Hall A', capacity: 100, features: 'Projector, Sound System' },
+      { id: 2, name: 'Seminar Room', capacity: 30, features: 'Whiteboard, TV' },
+      { id: 3, name: 'Computer Lab 1', capacity: 50, features: '50 PCs, Internet' },
+      { id: 4, name: 'Meeting Room', capacity: 10, features: 'Round Table' }
+    ];
+  }
   await write();
 };
 await seedIfEmpty();
 
-export const getStudents = () => db.data.students;
+export const getStudents = () => {
+  const today = new Date().toISOString().slice(0, 10);
+  return db.data.students.map(student => {
+    const record = db.data.attendance.find(a => a.student_id === student.id && a.date === today);
+    return { ...student, status: record ? record.status : 'present' };
+  });
+};
 export const getTodayAttendanceStats = () => {
   const today = new Date().toISOString().slice(0, 10);
   const rows = db.data.attendance.filter(a => a.date === today);
@@ -95,5 +114,11 @@ export const getAlerts = () => db.data.security_alerts.slice().reverse();
 export const addAlert = async ({ type, location, status }) => {
   const time = new Date().toLocaleTimeString();
   db.data.security_alerts.push({ id: nanoid(), type, location, time, status: status || 'Active' });
+  await write();
+};
+export const getRooms = () => db.data.rooms;
+export const getBookings = () => db.data.bookings;
+export const createBooking = async ({ roomId, user, date, time }) => {
+  db.data.bookings.push({ id: nanoid(), roomId, user, date, time });
   await write();
 };
