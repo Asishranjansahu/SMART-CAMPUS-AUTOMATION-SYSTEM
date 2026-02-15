@@ -195,7 +195,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👥 Authors
 
-- Your Name - Initial work
+- Asish Ranjan Sahu - Initial work
 
 ## 🙏 Acknowledgments
 
@@ -206,7 +206,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Support
 
-For support, email your-email@example.com or open an issue in the repository.
+For support, email asishranjansahu2003@gmail.com or open an issue in the repository.
 
 ## 🔮 Future Roadmap
 
