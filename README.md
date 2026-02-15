@@ -196,6 +196,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👥 Authors
 
 - Asish Ranjan Sahu - Initial work
+- Renuka Swain - Contributor
 
 ## 🙏 Acknowledgments
 
