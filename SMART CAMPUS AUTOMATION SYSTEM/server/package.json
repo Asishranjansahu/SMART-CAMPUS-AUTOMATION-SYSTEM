@@ -1,0 +1,16 @@
+{
+  "name": "smart-campus-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "lowdb": "^7.0.1",
+    "nanoid": "^5.0.7",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}
