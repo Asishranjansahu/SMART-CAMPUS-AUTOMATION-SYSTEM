@@ -1,101 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Book, 
-  Coffee, 
-  Home, 
-  Shield, 
-  UserCheck, 
-  Calendar, 
-  Map as MapIcon, 
-  Building2,
-  Bell,
-  Search,
-  User,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  Check,
-  Info,
-  AlertTriangle,
-  Clock,
-  ChevronDown,
-  ExternalLink,
-  Hammer,
-  ShieldAlert,
-  Trash2,
-  GraduationCap,
-  Bus
+import {
+  Home, UserCheck, Book, Coffee, Shield, Calendar,
+  Map as MapIcon, Building2, Bell, Search, User,
+  Settings, LogOut, Menu, X, Check, Info,
+  AlertTriangle, ChevronDown, Hammer, ShieldAlert,
+  Trash2, GraduationCap, Bus, CalendarDays, Zap
 } from "lucide-react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 
 const Navbar = () => {
   const { toast } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const userName = localStorage.getItem("userName") || "User";
+  const userRole = localStorage.getItem("userRole") || "student";
+  const initials = userName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+  const isAdmin = userRole === "admin" || userRole === "faculty";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userRole");
+    ["isAuthenticated","userRole","userName","userRollNo","userEmail","userPhone","jwt_token"]
+      .forEach(k => localStorage.removeItem(k));
     navigate("/");
   };
 
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      title: "Library Book Due",
-      message: "'Data Structures' is due tomorrow",
-      time: "2 hours ago",
-      type: "warning",
-      read: false
-    },
-    {
-      id: 2,
-      title: "Attendance Update",
-      message: "Your attendance for Java Class is marked",
-      time: "5 hours ago",
-      type: "success",
-      read: false
-    },
-    {
-      id: 3,
-      title: "Cafeteria Offer",
-      message: "20% off on all coffee drinks today!",
-      time: "1 day ago",
-      type: "info",
-      read: true
-    }
+    { id: 1, title: "Library Book Due", message: "'Data Structures' is due tomorrow", time: "2h ago", type: "warning", read: false },
+    { id: 2, title: "Attendance Update", message: "Java Class marked present", time: "5h ago", type: "success", read: false },
+    { id: 3, title: "Cafeteria Offer", message: "20% off on coffee today!", time: "1d ago", type: "info", read: true },
   ]);
-
   const unreadCount = notifications.filter(n => !n.read).length;
+  const markAllRead = () => setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  const markRead = (id) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
 
-  const markAsRead = (id) => {
-    setNotifications(notifications.map(n => 
-      n.id === id ? { ...n, read: true } : n
-    ));
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
-  };
-
-  const navItems = [
+  // All nav items in ONE line — no dropdowns
+  const allNavItems = [
+    { path: "/campus", icon: Building2, label: "Campus" },
     { path: "/dashboard", icon: Home, label: "Dashboard" },
     { path: "/attendance", icon: UserCheck, label: "Attendance" },
     { path: "/library", icon: Book, label: "Library" },
@@ -103,301 +60,306 @@ const Navbar = () => {
     { path: "/security", icon: Shield, label: "Security" },
     { path: "/rooms", icon: Calendar, label: "Rooms" },
     { path: "/map", icon: MapIcon, label: "Map" },
+    { path: "/events", icon: CalendarDays, label: "Events" },
+    { path: "/notices", icon: Bell, label: "Notices" },
+    { path: "/transport", icon: Bus, label: "Transport" },
+    { path: "/placement", icon: GraduationCap, label: "Placements" },
   ];
 
-  const campusItems = [
-    { path: "/premises", icon: Hammer, label: "Premises Work" },
-    { path: "/anti-ragging", icon: ShieldAlert, label: "Anti-Ragging Squad" },
-    { path: "/lost-and-found", icon: Search, label: "Lost & Found AI" },
-    { path: "/smart-dustbin", icon: Trash2, label: "Smart Dustbins" },
-    { path: "/transport", icon: Bus, label: "Smart Transport" },
-    { path: "/placement", icon: GraduationCap, label: "Placement Predictor" },
+  // Extra items only in "More" dropdown
+  const moreItems = [
+    { path: "/premises", icon: Hammer, label: "Premises" },
+    { path: "/anti-ragging", icon: ShieldAlert, label: "Anti-Ragging" },
+    { path: "/lost-and-found", icon: () => <span className="text-sm">🔍</span>, label: "Lost & Found" },
+    { path: "/smart-dustbin", icon: Trash2, label: "Smart Dustbin" },
+  ];
+
+  const adminItems = [
+    { path: "/admin/events", icon: CalendarDays, label: "Manage Events" },
+    { path: "/admin/notices", icon: Bell, label: "Manage Notices" },
   ];
 
   if (location.pathname === "/") return null;
 
   return (
     <>
-    <nav className="bg-white sticky top-0 z-50 border-b border-slate-200 shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo Section */}
-          <Link to="/dashboard" className="flex items-center gap-2 group">
-            <div className="p-1.5 bg-blue-600 rounded-lg group-hover:bg-blue-700 transition-colors">
-              <Building2 className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold text-slate-900 leading-none tracking-tight">VIGNAN</span>
-              <span className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest">Institute</span>
-            </div>
-          </Link>
+      <nav className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/80 backdrop-blur-xl shadow-lg shadow-slate-900/5 border-b border-slate-200/50"
+          : "bg-white border-b border-slate-100"
+      }`}>
+        <div className="container mx-auto px-3">
+          <div className="flex items-center justify-between h-14">
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => {
-               const isActive = location.pathname === item.path;
-               return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center gap-2 rounded-md
-                    ${isActive 
-                      ? "text-blue-600 bg-blue-50" 
-                      : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
-                    }`}
-                >
-                  <item.icon className={`w-4 h-4 ${isActive ? "text-blue-600" : "text-slate-400 group-hover:text-blue-600"}`} />
-                  {item.label}
-                </Link>
-               );
-            })}
+            {/* Logo */}
+            <Link to="/dashboard" className="flex items-center gap-2 group flex-shrink-0 mr-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-md shadow-blue-600/20">
+                <Zap className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-sm font-bold text-slate-900 hidden sm:block">VIGNAN</span>
+            </Link>
 
-            {/* Campus Dropdown */}
-             <DropdownMenu>
+            {/* ─── All Nav Items in ONE LINE ─── */}
+            <div className="hidden xl:flex items-center gap-0.5 flex-1 justify-center overflow-x-auto">
+              {allNavItems.map((item) => {
+                const active = location.pathname === item.path;
+                return (
+                  <Link key={item.path} to={item.path}
+                    className={`flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold rounded-lg whitespace-nowrap transition-all ${
+                      active
+                        ? "text-blue-600 bg-blue-50 shadow-sm"
+                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                    }`}>
+                    <item.icon className="w-3.5 h-3.5" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+
+              {/* More Dropdown (overflow items) */}
+              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="relative px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center gap-2 rounded-md text-slate-600 hover:text-blue-600 hover:bg-slate-50 focus:outline-none">
-                    <Building2 className="w-4 h-4 text-slate-400" />
-                    Campus
-                    <ChevronDown className="w-3 h-3 ml-0.5 opacity-50" />
+                  <button className="flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-lg whitespace-nowrap transition-all">
+                    More <ChevronDown className="w-3 h-3" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 p-1 rounded-xl shadow-xl border-slate-200 bg-white" align="start">
-                  {campusItems.map((item) => (
-                    <DropdownMenuItem 
-                      key={item.label} 
-                      className="rounded-lg focus:bg-slate-50 cursor-pointer py-2 text-slate-700"
-                      onClick={() => navigate(item.path)}
-                    >
-                      <item.icon className="mr-2 h-3.5 w-3.5 text-slate-500" />
+                <DropdownMenuContent className="w-48 p-1.5 rounded-xl shadow-xl border-slate-200/80" align="center">
+                  {moreItems.map((item) => (
+                    <DropdownMenuItem key={item.label}
+                      className="rounded-lg cursor-pointer py-2 text-sm text-slate-600 focus:bg-slate-50"
+                      onClick={() => navigate(item.path)}>
+                      <item.icon className="mr-2.5 h-4 w-4 text-slate-400" />
                       <span className="font-medium">{item.label}</span>
                     </DropdownMenuItem>
                   ))}
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuSeparator className="my-1.5" />
+                      <div className="px-2.5 py-1 text-[10px] font-bold text-blue-500 uppercase tracking-wider">Admin</div>
+                      {adminItems.map((item) => (
+                        <DropdownMenuItem key={item.label}
+                          className="rounded-lg cursor-pointer py-2 text-sm text-blue-600 focus:bg-blue-50"
+                          onClick={() => navigate(item.path)}>
+                          <item.icon className="mr-2.5 h-4 w-4 text-blue-500" />
+                          <span className="font-medium">{item.label}</span>
+                        </DropdownMenuItem>
+                      ))}
+                    </>
+                  )}
                 </DropdownMenuContent>
-             </DropdownMenu>
+              </DropdownMenu>
+            </div>
 
-            {/* Resources Dropdown */}
-             <DropdownMenu>
+            {/* Medium screens: show fewer items */}
+            <div className="hidden lg:flex xl:hidden items-center gap-0.5 flex-1 justify-center overflow-x-auto">
+              {allNavItems.slice(0, 6).map((item) => {
+                const active = location.pathname === item.path;
+                return (
+                  <Link key={item.path} to={item.path}
+                    className={`flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold rounded-lg whitespace-nowrap transition-all ${
+                      active ? "text-blue-600 bg-blue-50 shadow-sm" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                    }`}>
+                    <item.icon className="w-3.5 h-3.5" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="relative px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center gap-2 rounded-md text-slate-600 hover:text-blue-600 hover:bg-slate-50 focus:outline-none">
-                    <Book className="w-4 h-4 text-slate-400" />
-                    Resources
-                    <ChevronDown className="w-3 h-3 ml-0.5 opacity-50" />
+                  <button className="flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-lg whitespace-nowrap">
+                    More <ChevronDown className="w-3 h-3" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 p-1 rounded-xl shadow-xl border-slate-200 bg-white" align="start">
-                  {[
-                    { label: "Student Portal", path: "/dashboard" },
-                    { label: "Faculty Login", path: "/login" },
-                    { label: "Academic Calendar", action: () => toast({ title: "Coming Soon", description: "Academic Calendar feature is under development." }) },
-                    { label: "Exam Results", action: () => toast({ title: "Coming Soon", description: "Exam Results feature is under development." }) },
-                    { label: "Support Center", action: () => toast({ title: "Coming Soon", description: "Support Center feature is under development." }) }
-                  ].map((item) => (
-                    <DropdownMenuItem 
-                      key={item.label} 
-                      className="rounded-lg focus:bg-slate-50 cursor-pointer py-2 text-slate-700"
-                      onClick={() => item.path ? navigate(item.path) : item.action()}
-                    >
-                      <ExternalLink className="mr-2 h-3.5 w-3.5 text-slate-500" />
+                <DropdownMenuContent className="w-48 p-1.5 rounded-xl shadow-xl border-slate-200/80" align="center">
+                  {[...allNavItems.slice(6), ...moreItems].map((item) => (
+                    <DropdownMenuItem key={item.label}
+                      className="rounded-lg cursor-pointer py-2 text-sm text-slate-600 focus:bg-slate-50"
+                      onClick={() => navigate(item.path)}>
+                      <item.icon className="mr-2.5 h-4 w-4 text-slate-400" />
                       <span className="font-medium">{item.label}</span>
                     </DropdownMenuItem>
                   ))}
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuSeparator className="my-1.5" />
+                      <div className="px-2.5 py-1 text-[10px] font-bold text-blue-500 uppercase tracking-wider">Admin</div>
+                      {adminItems.map((item) => (
+                        <DropdownMenuItem key={item.label}
+                          className="rounded-lg cursor-pointer py-2 text-sm text-blue-600 focus:bg-blue-50"
+                          onClick={() => navigate(item.path)}>
+                          <item.icon className="mr-2.5 h-4 w-4 text-blue-500" />
+                          <span className="font-medium">{item.label}</span>
+                        </DropdownMenuItem>
+                      ))}
+                    </>
+                  )}
                 </DropdownMenuContent>
-             </DropdownMenu>
-          </div>
+              </DropdownMenu>
+            </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-3">
-             {/* Expandable Search */}
-             <div className="hidden sm:flex items-center">
+            {/* ─── Right Section ─── */}
+            <div className="flex items-center gap-1 ml-3">
+              {/* Search */}
+              <div className="hidden sm:flex items-center">
                 <AnimatePresence>
-                  {isSearchOpen && (
-                    <motion.div
-                      initial={{ width: 0, opacity: 0 }}
-                      animate={{ width: 240, opacity: 1 }}
-                      exit={{ width: 0, opacity: 0 }}
-                      className="overflow-hidden mr-2"
-                    >
+                  {searchOpen && (
+                    <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: 180, opacity: 1 }} exit={{ width: 0, opacity: 0 }}
+                      className="overflow-hidden mr-2">
                       <div className="relative">
-                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                        <Input 
-                          placeholder="Search..." 
-                          className="h-9 pl-9 bg-slate-50 border-slate-200 focus-visible:ring-1 focus-visible:ring-slate-400"
-                          autoFocus
-                          onBlur={() => setIsSearchOpen(false)}
-                        />
+                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                        <Input placeholder="Search..." className="h-8 pl-7 text-xs bg-slate-50 border-slate-200"
+                          autoFocus onBlur={() => setSearchOpen(false)} />
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-500 hover:text-slate-900 hover:bg-slate-100 ${isSearchOpen ? 'bg-slate-100' : ''}`}
-                  onClick={() => setIsSearchOpen(!isSearchOpen)}
-                >
-                   <Search className="w-5 h-5" />
-                </Button>
-             </div>
-             
-             <div className="h-4 w-px bg-slate-200 hidden sm:block"></div>
-             
-             {/* Notifications Dropdown */}
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-slate-500 hover:text-slate-900 hover:bg-slate-100 relative">
-                    <Bell className="w-5 h-5" />
-                    {unreadCount > 0 && (
-                      <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-80 p-0 rounded-xl shadow-xl border-slate-200" align="end" forceMount>
-                   <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50/50 rounded-t-xl">
-                      <h3 className="font-semibold text-sm text-slate-900">Notifications</h3>
-                      {unreadCount > 0 && (
-                        <button 
-                          className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline"
-                          onClick={markAllAsRead}
-                        >
-                          Mark all as read
-                        </button>
-                      )}
-                   </div>
-                   <div className="max-h-[320px] overflow-y-auto">
-                      {notifications.length === 0 ? (
-                        <div className="p-8 text-center">
-                          <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <Bell className="w-6 h-6 text-slate-300" />
-                          </div>
-                          <p className="text-sm text-slate-500">No new notifications</p>
-                        </div>
-                      ) : (
-                        <div className="divide-y divide-slate-50">
-                        {notifications.map((notification) => (
-                          <div 
-                            key={notification.id}
-                            onClick={() => markAsRead(notification.id)}
-                            className={`px-4 py-3 hover:bg-slate-50 cursor-pointer transition-colors ${
-                              notification.read ? 'opacity-75' : 'bg-blue-50/30'
-                            }`}
-                          >
-                             <div className="flex gap-3">
-                                <div className={`mt-0.5 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border ${
-                                  notification.type === 'warning' ? 'bg-amber-50 border-amber-100 text-amber-600' :
-                                  notification.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-600' :
-                                  'bg-blue-50 border-blue-100 text-blue-600'
-                                }`}>
-                                   {notification.type === 'warning' ? <AlertTriangle className="w-4 h-4" /> :
-                                    notification.type === 'success' ? <Check className="w-4 h-4" /> :
-                                    <Info className="w-4 h-4" />}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                   <div className="flex justify-between items-start mb-0.5">
-                                     <p className={`text-sm truncate pr-2 ${notification.read ? 'font-medium text-slate-700' : 'font-semibold text-slate-900'}`}>
-                                       {notification.title}
-                                     </p>
-                                     <span className="text-[10px] text-slate-400 whitespace-nowrap flex-shrink-0">{notification.time}</span>
-                                   </div>
-                                   <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                                     {notification.message}
-                                   </p>
-                                </div>
-                                {!notification.read && (
-                                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                                )}
-                             </div>
-                          </div>
-                        ))}
-                        </div>
-                      )}
-                   </div>
-                   <div className="p-2 border-t border-slate-100 bg-slate-50/50 rounded-b-xl">
-                      <Button variant="ghost" size="sm" className="w-full text-xs h-8 font-medium text-slate-600 hover:text-slate-900">
-                         View All Notifications
-                      </Button>
-                   </div>
-                </DropdownMenuContent>
-             </DropdownMenu>
-
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                   <Button variant="ghost" className="relative h-9 w-9 rounded-full ring-2 ring-slate-100 hover:ring-slate-200 transition-all ml-1">
-                      <Avatar className="h-9 w-9">
-                         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                         <AvatarFallback className="bg-slate-100 text-slate-600 font-medium">AD</AvatarFallback>
-                      </Avatar>
-                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 rounded-xl shadow-xl border-slate-200" align="end" forceMount>
-                   <DropdownMenuLabel className="font-normal p-3 bg-slate-50/50 border-b border-slate-100">
-                      <div className="flex flex-col space-y-1">
-                         <p className="text-sm font-semibold text-slate-900">Admin User</p>
-                         <p className="text-xs text-slate-500 font-medium">admin@vignan.edu.in</p>
-                      </div>
-                   </DropdownMenuLabel>
-                   <div className="p-1">
-                     <DropdownMenuItem className="rounded-lg focus:bg-slate-50 cursor-pointer">
-                        <User className="mr-2 h-4 w-4 text-slate-500" />
-                        <span className="font-medium text-slate-700">Profile</span>
-                     </DropdownMenuItem>
-                     <DropdownMenuItem className="rounded-lg focus:bg-slate-50 cursor-pointer">
-                        <Settings className="mr-2 h-4 w-4 text-slate-500" />
-                        <span className="font-medium text-slate-700">Settings</span>
-                     </DropdownMenuItem>
-                   </div>
-                   <DropdownMenuSeparator className="bg-slate-100" />
-                   <div className="p-1">
-                     <DropdownMenuItem 
-                        className="rounded-lg focus:bg-red-50 text-red-600 focus:text-red-700 cursor-pointer"
-                        onClick={handleLogout}
-                     >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span className="font-medium">Log out</span>
-                     </DropdownMenuItem>
-                   </div>
-                </DropdownMenuContent>
-             </DropdownMenu>
-
-              {/* Mobile Menu Toggle */}
-              <div className="lg:hidden ml-2">
-                 <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-500 hover:text-slate-900">
-                    {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                 </Button>
+                <button onClick={() => setSearchOpen(!searchOpen)}
+                  className={`p-1.5 rounded-lg transition-colors ${searchOpen ? "bg-slate-100 text-slate-900" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"}`}>
+                  <Search className="w-4 h-4" />
+                </button>
               </div>
+
+              {/* Notifications */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="relative p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors">
+                    <Bell className="w-4 h-4" />
+                    {unreadCount > 0 && (
+                      <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-red-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center ring-2 ring-white">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-72 p-0 rounded-xl shadow-xl border-slate-200/80" align="end">
+                  <div className="flex items-center justify-between px-3 py-2.5 border-b border-slate-100">
+                    <h3 className="font-semibold text-xs">Notifications</h3>
+                    {unreadCount > 0 && (
+                      <button onClick={markAllRead} className="text-[10px] font-medium text-blue-600 hover:underline">Mark all read</button>
+                    )}
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {notifications.map((n) => (
+                      <div key={n.id} onClick={() => markRead(n.id)}
+                        className={`px-3 py-2.5 hover:bg-slate-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0 ${!n.read ? "bg-blue-50/30" : ""}`}>
+                        <div className="flex gap-2.5">
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            n.type === "warning" ? "bg-amber-100 text-amber-600" :
+                            n.type === "success" ? "bg-emerald-100 text-emerald-600" : "bg-blue-100 text-blue-600"
+                          }`}>
+                            {n.type === "warning" ? <AlertTriangle className="w-3 h-3" /> :
+                             n.type === "success" ? <Check className="w-3 h-3" /> : <Info className="w-3 h-3" />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-start">
+                              <p className={`text-xs truncate pr-2 ${!n.read ? "font-bold text-slate-900" : "font-medium text-slate-600"}`}>{n.title}</p>
+                              <span className="text-[10px] text-slate-400 whitespace-nowrap">{n.time}</span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 mt-0.5">{n.message}</p>
+                          </div>
+                          {!n.read && <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 flex-shrink-0" />}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <div className="w-px h-5 bg-slate-200" />
+
+              {/* User */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-2 p-1 pr-1.5 rounded-lg hover:bg-slate-50 transition-colors">
+                    <div className="w-7 h-7 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white text-[10px] font-bold shadow-sm">
+                      {initials}
+                    </div>
+                    <div className="hidden lg:block text-left">
+                      <p className="text-[11px] font-semibold text-slate-900 leading-none">{userName}</p>
+                      <p className="text-[9px] text-slate-400 capitalize">{userRole}</p>
+                    </div>
+                    <ChevronDown className="w-3 h-3 text-slate-400 hidden lg:block" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-48 p-1.5 rounded-xl shadow-xl border-slate-200/80" align="end">
+                  <div className="px-2.5 py-2 mb-1">
+                    <p className="text-xs font-semibold text-slate-900">{userName}</p>
+                    <p className="text-[10px] text-slate-500 capitalize">{userRole} Account</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="rounded-lg cursor-pointer py-1.5 text-xs text-slate-600 focus:bg-slate-50"
+                    onClick={() => navigate("/dashboard")}>
+                    <User className="mr-2 h-3.5 w-3.5 text-slate-400" />
+                    <span className="font-medium">Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="rounded-lg cursor-pointer py-1.5 text-xs text-slate-600 focus:bg-slate-50"
+                    onClick={() => toast({ title: "Coming Soon" })}>
+                    <Settings className="mr-2 h-3.5 w-3.5 text-slate-400" />
+                    <span className="font-medium">Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="rounded-lg cursor-pointer py-1.5 text-xs text-red-600 focus:bg-red-50"
+                    onClick={handleLogout}>
+                    <LogOut className="mr-2 h-3.5 w-3.5" />
+                    <span className="font-medium">Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Mobile */}
+              <button onClick={() => setMobileOpen(!mobileOpen)}
+                className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors ml-0.5">
+                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Mobile Menu Dropdown */}
+      </nav>
+
+      {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden border-t border-slate-100 bg-white shadow-xl"
-          >
-             <div className="p-4 grid grid-cols-2 gap-3">
-                {[...navItems, ...campusItems].map((item) => (
-                   <Link
-                      key={item.path}
-                      to={item.path}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 p-3 rounded-lg transition-colors border
-                         ${location.pathname === item.path
-                            ? "bg-slate-900 text-white border-slate-900 shadow-md"
-                            : "bg-white text-slate-600 border-slate-100 hover:border-slate-200 hover:bg-slate-50"
-                         }`}
-                   >
-                      <item.icon className={`w-5 h-5 ${location.pathname === item.path ? "text-blue-400" : "text-slate-400"}`} />
-                      <span className="font-medium text-sm">{item.label}</span>
-                   </Link>
+        {mobileOpen && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden fixed top-14 left-0 right-0 z-40 bg-white border-b border-slate-200 shadow-xl overflow-hidden">
+            <div className="p-3 space-y-3 max-h-[70vh] overflow-y-auto">
+              <div className="grid grid-cols-3 gap-1.5">
+                {allNavItems.map((item) => (
+                  <Link key={item.path} to={item.path} onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-1.5 p-2 rounded-lg text-[11px] font-semibold transition-all ${
+                      location.pathname === item.path
+                        ? "bg-blue-600 text-white shadow-md"
+                        : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+                    }`}>
+                    <item.icon className="w-3.5 h-3.5" />
+                    {item.label}
+                  </Link>
                 ))}
-             </div>
+              </div>
+              {moreItems.map((item) => (
+                <Link key={item.path} to={item.path} onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 p-2.5 rounded-lg border border-slate-100 text-xs font-medium text-slate-600 hover:bg-slate-50">
+                  <item.icon className="w-3.5 h-3.5 text-slate-400" />
+                  {item.label}
+                </Link>
+              ))}
+              {isAdmin && (
+                <div className="pt-2 border-t border-slate-100">
+                  <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-2 px-1">Admin</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {adminItems.map((item) => (
+                      <Link key={item.path} to={item.path} onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-2 p-2.5 rounded-lg border border-blue-100 bg-blue-50/50 text-xs font-medium text-blue-600 hover:bg-blue-50">
+                        <item.icon className="w-3.5 h-3.5" />
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
     </>
   );
 };

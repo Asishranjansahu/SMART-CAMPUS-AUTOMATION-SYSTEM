@@ -310,12 +310,6 @@ const CampusMap = () => {
           zoomControl={false}
         >
           <LayersControl position="topright">
-            <BaseLayer name="OpenStreetMap">
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-            </BaseLayer>
             <BaseLayer name="Google Streets">
               <TileLayer
                 attribution="Google Maps"
@@ -328,10 +322,10 @@ const CampusMap = () => {
                 url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
               />
             </BaseLayer>
-            <BaseLayer checked name="Google Hybrid">
+            <BaseLayer checked name="OpenStreetMap">
               <TileLayer
-                attribution="Google Maps"
-                url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
             </BaseLayer>
           </LayersControl>

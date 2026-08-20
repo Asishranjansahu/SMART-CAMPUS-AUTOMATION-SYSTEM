@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
@@ -17,6 +17,11 @@ import LostAndFound from "@/components/LostAndFound";
 import SmartDustbin from "@/components/SmartDustbin";
 import Transport from "@/components/Transport";
 import Placement from "@/components/Placement";
+import AdminEvents from "@/components/AdminEvents";
+import AdminNotices from "@/components/AdminNotices";
+import CampusPage from "@/components/CampusPage";
+import EventsBoard from "@/components/EventsBoard";
+import NoticeBoard from "@/components/NoticeBoard";
 import Welcome from "@/components/Welcome";
 import Login from "@/components/Login";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -26,47 +31,7 @@ function AppContent() {
   const isWelcome = location.pathname === "/";
   const isLogin = location.pathname === "/login";
 
-  useEffect(() => {
-    // Clear authentication on initial load (refresh)
-    const handleRefresh = () => {
-      // Check if this is a refresh by checking performance navigation type
-      if (performance.getEntriesByType("navigation")[0].type === "reload") {
-        localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("userRole");
-      }
-    };
-    
-    // Also clear on mount to be safe, but we want to allow navigation within the app
-    // The issue is: AppContent mounts once on load. If we navigate, it doesn't remount.
-    // If we refresh, it remounts.
-    // So simply clearing here works for the "refresh" case.
-    
-    // However, if we want to PERSIST the session during normal use but CLEAR it on refresh...
-    // The browser doesn't distinguish easily between "new tab" and "refresh" for localStorage persistence.
-    // But sessionStorage IS cleared on tab close, but NOT on refresh.
-    // localStorage persists across everything.
-    
-    // If the user specifically said "refresh the page is redirect to the welcome page",
-    // it implies they want the session to be ephemeral.
-    
-    // Let's use a simpler approach: sessionStorage.
-    // If we switch to sessionStorage, a refresh usually KEEPS the session.
-    // The user WANTS to lose it on refresh.
-    
-    // So, we should clear localStorage on mount.
-    // But wait, if I navigate from Login to Dashboard, AppContent does NOT remount?
-    // Yes, it does NOT remount because it's inside Router.
-    // BUT App component (wrapping Router) also mounts once.
-    
-    // So:
-    // 1. User opens App (mounts) -> Clear Auth -> User is logged out. Correct.
-    // 2. User logs in -> Auth set in localStorage.
-    // 3. User navigates to Dashboard -> App does NOT remount -> Auth persists. Correct.
-    // 4. User refreshes page -> App remounts -> Clear Auth -> User logged out. Correct.
-    
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userRole");
-  }, []);
+
 
   return (
     <div className={(isWelcome || isLogin) ? "" : "min-h-screen bg-slate-50 dark:bg-slate-950 relative font-sans antialiased"}>
@@ -146,6 +111,31 @@ function AppContent() {
             <Route path="/placement" element={
               <ProtectedRoute>
                 <Placement />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/events" element={
+              <ProtectedRoute>
+                <AdminEvents />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/notices" element={
+              <ProtectedRoute>
+                <AdminNotices />
+              </ProtectedRoute>
+            } />
+            <Route path="/campus" element={
+              <ProtectedRoute>
+                <CampusPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/events" element={
+              <ProtectedRoute>
+                <EventsBoard />
+              </ProtectedRoute>
+            } />
+            <Route path="/notices" element={
+              <ProtectedRoute>
+                <NoticeBoard />
               </ProtectedRoute>
             } />
           </Routes>

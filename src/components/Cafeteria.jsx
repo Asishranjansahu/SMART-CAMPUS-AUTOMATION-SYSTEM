@@ -20,8 +20,8 @@ const Cafeteria = () => {
     const fetchData = async () => {
       try {
         const [menuData, insightsData] = await Promise.all([
-          getMenu(),
-          getCafeteriaInsights().catch(() => null) // Handle potential error if endpoint fails
+          getMenu().catch(() => null),
+          getCafeteriaInsights().catch(() => null)
         ]);
 
         if (menuData && menuData.length > 0) {

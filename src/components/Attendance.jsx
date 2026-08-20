@@ -72,6 +72,12 @@ const Attendance = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
+  const studentsRef = useRef(students);
+  const scannedStudentsRef = useRef(scannedStudents);
+
+  // Keep refs in sync with state so the scanning interval always reads fresh data
+  useEffect(() => { studentsRef.current = students; }, [students]);
+  useEffect(() => { scannedStudentsRef.current = scannedStudents; }, [scannedStudents]);
 
   // Load Face API Models
   useEffect(() => {
@@ -174,31 +180,25 @@ const Attendance = () => {
             
             // Draw detections
             faceapi.draw.drawDetections(canvas, resizedDetections);
-            // faceapi.draw.drawFaceLandmarks(canvas, resizedDetections); // Optional: too cluttery
 
-            if (detections.length > 0 && students.length > 0) {
-                // Simulate identification
-                // In a real app, we would match detection.descriptor with stored descriptors
-                if (Math.random() > 0.8) { // Throttle recognition
-                    const randomStudent = students[Math.floor(Math.random() * students.length)];
+            if (detections.length > 0 && studentsRef.current.length > 0) {
+                if (Math.random() > 0.8) {
+                    const randomStudent = studentsRef.current[Math.floor(Math.random() * studentsRef.current.length)];
                     
-                    // Only mark if not already present or recently scanned
-                    const recentlyScanned = scannedStudents.some(s => s.id === randomStudent.id && 
-                        (new Date() - new Date('1970/01/01 ' + s.scanTime)) < 60000 // Simple check, improvement needed for real time
+                    const recentlyScanned = scannedStudentsRef.current.some(s => s.id === randomStudent.id && 
+                        (new Date() - new Date('1970/01/01 ' + s.scanTime)) < 60000
                     );
 
                     if (!recentlyScanned) {
                         handleMarkAttendance(randomStudent.id, 'present');
                         setScannedStudents(prev => {
-                           // Avoid duplicates in the list
                            if (prev.find(p => p.id === randomStudent.id)) return prev;
                            return [
                              { ...randomStudent, scanTime: new Date().toLocaleTimeString() },
-                             ...prev.slice(0, 4) // Keep last 5
+                             ...prev.slice(0, 4)
                            ];
                         });
                         
-                        // Draw Name Box
                         const box = resizedDetections[0].detection.box;
                         const drawBox = new faceapi.draw.DrawBox(box, { label: randomStudent.id });
                         drawBox.draw(canvas);
@@ -209,10 +209,10 @@ const Attendance = () => {
     };
 
     if (isScanning) {
-      scanInterval = setInterval(runDetection, 200); // Run every 200ms
+      scanInterval = setInterval(runDetection, 200);
     }
     return () => clearInterval(scanInterval);
-  }, [isScanning, students, modelsLoaded, scannedStudents]);
+  }, [isScanning, modelsLoaded]);
 
   useEffect(() => {
     const load = async () => {
@@ -324,8 +324,9 @@ const Attendance = () => {
     }, 2000); // Update every 2 seconds
 
     // Socket connection (optional/demo)
+    let socket = null;
     try {
-      const socket = io("http://localhost:4000");
+      socket = io("http://localhost:4000", { reconnection: false, timeout: 3000 });
       socket.on("attendance_updated", ({ id, status }) => {
         setStudents(prev => {
             const newStudents = prev.map(p => p.id === id ? { ...p, status } : p);
@@ -336,36 +337,37 @@ const Attendance = () => {
         });
       });
       return () => {
-          socket.close();
+          if (socket) socket.close();
           clearInterval(interval);
       };
     } catch (e) {
-      console.log("Socket not available");
       return () => clearInterval(interval);
     }
   }, []);
 
   const handleMarkAttendance = (id, status) => {
+    // Capture the student before updating to avoid stale closure
+    const student = students.find(s => s.id === id);
+    const oldStatus = student?.status;
+
     markAttendance(id, status).catch(() => {}).finally(() => {
        // Optimistic update
        setStudents(prev => prev.map(p => p.id === id ? { ...p, status } : p));
        
        // Recalculate stats locally for immediate feedback
-       setStats(prev => {
-          const student = students.find(s => s.id === id);
-          const oldStatus = student.status;
-          if (oldStatus === status) return prev;
-          
-          let newPresent = prev.present;
-          let newAbsent = prev.absent;
-          
-          if (status === 'present') newPresent++;
-          if (status === 'absent') newAbsent++;
-          if (oldStatus === 'present') newPresent--;
-          if (oldStatus === 'absent') newAbsent--;
-          
-          return { present: newPresent, absent: newAbsent };
-       });
+       if (oldStatus && oldStatus !== status) {
+           setStats(prev => {
+              let newPresent = prev.present;
+              let newAbsent = prev.absent;
+              
+              if (status === 'present') newPresent++;
+              if (status === 'absent') newAbsent++;
+              if (oldStatus === 'present') newPresent--;
+              if (oldStatus === 'absent') newAbsent--;
+              
+              return { present: newPresent, absent: newAbsent };
+           });
+       }
     });
 
     toast({

@@ -1,165 +1,122 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, School, BookOpen, ShieldCheck, Coffee, Map, Calendar, Library, GraduationCap, Users } from "lucide-react";
+import { ArrowRight, Building2, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 
 const Welcome = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      },
-    },
-  };
-
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-50 relative overflow-hidden font-sans selection:bg-blue-500/30">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.03]" 
-           style={{ 
-             backgroundImage: "radial-gradient(#cbd5e1 1px, transparent 1px)", 
-             backgroundSize: "32px 32px" 
-           }}>
+    <div className="min-h-screen flex flex-col bg-slate-950 text-white font-sans">
+      {/* Background */}
+      <div className="absolute inset-0 z-0 opacity-[0.03]"
+        style={{ backgroundImage: "radial-gradient(#cbd5e1 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950 pointer-events-none z-0" />
+
+      {/* Top Bar */}
+      <div className="relative z-10 border-b border-white/5">
+        <div className="container mx-auto px-4 py-2 flex justify-between items-center text-xs text-slate-500">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> +91-680-2345678</span>
+            <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> info@vitam.ac.in</span>
+          </div>
+          <span className="hidden md:flex items-center gap-1"><MapPin className="w-3 h-3" /> Berhampur, Odisha</span>
+        </div>
       </div>
-      
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950 pointer-events-none z-0"></div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 z-10 flex-grow flex flex-col justify-center py-12 md:py-20">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 py-12">
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center text-center max-w-5xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-4xl w-full text-center"
         >
-          {/* Institution Branding */}
-          <motion.div variants={itemVariants} className="mb-8 md:mb-12">
-            <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-2xl shadow-2xl flex items-center justify-center p-2 mb-6 mx-auto ring-1 ring-white/10">
-              <img 
-                src="/RENUKA SWAIN.png" 
-                alt="Vignan Institute Logo" 
-                className="w-full h-full object-contain"
+          {/* College Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative mb-10 mx-auto max-w-3xl"
+          >
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+              <img
+                src="/vitam-campus.jpg"
+                alt="VITAM Campus"
+                className="w-full h-[300px] md:h-[400px] object-cover"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             </div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-200 text-xs md:text-sm font-medium tracking-wide uppercase mb-4">
-              <School className="w-3 h-3 md:w-4 md:h-4" />
-              <span>Vignan Institute of Technology and Management</span>
+            {/* Glow */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-purple-600/10 rounded-3xl blur-2xl -z-10" />
+          </motion.div>
+
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex justify-center mb-6"
+          >
+            <div className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-2xl shadow-2xl flex items-center justify-center p-2 ring-1 ring-white/10">
+              <img src="/RENUKA SWAIN.png" alt="VITAM Logo" className="w-full h-full object-contain" />
             </div>
           </motion.div>
 
-          {/* Hero Text */}
-          <motion.div variants={itemVariants} className="space-y-6 mb-12">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]">
-              The Next Generation <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-                Smart Campus
+          {/* College Name */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-3">
+              Vignan Institute of<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                Technology & Management
               </span>
             </h1>
-            
-            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              A unified digital ecosystem designed to streamline academic operations, enhance security, and improve student experience.
+            <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto mb-2">
+              Established 2006 · Berhampur, Odisha
+            </p>
+            <p className="text-slate-500 text-sm max-w-lg mx-auto mb-10">
+              A premier institution for technical and management education, empowering students with world-class facilities and a vibrant campus life.
             </p>
           </motion.div>
 
-          {/* Primary Actions */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 mb-16 md:mb-24 w-full sm:w-auto">
-            <Link to="/login" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20 rounded-lg transition-all">
-                Access Dashboard <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
-            <Link to="/map" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 text-base border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-all">
-                <Map className="mr-2 w-4 h-4" /> View Campus Map
+          {/* Login Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Link to="/login">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-12 h-14 text-lg font-semibold shadow-lg shadow-blue-600/25 group transition-all">
+                <Building2 className="mr-3 w-5 h-5" />
+                Enter Campus Portal
+                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </motion.div>
 
-          {/* Feature Grid */}
-          <motion.div 
-            variants={containerVariants}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-6xl px-4"
+          {/* Accreditations */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="flex flex-wrap justify-center gap-3 mt-10"
           >
-            {[
-              { icon: Users, label: "Attendance", desc: "Automated Tracking" },
-              { icon: Library, label: "Digital Library", desc: "Resource Management" },
-              { icon: ShieldCheck, label: "Campus Security", desc: "Surveillance & Logs" },
-              { icon: Coffee, label: "Smart Cafeteria", desc: "Order & Payments" },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                className="group p-6 bg-slate-900/50 border border-slate-800/50 hover:border-blue-500/30 rounded-xl transition-all cursor-default text-left"
-              >
-                <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center mb-4 group-hover:bg-blue-600/20 transition-colors">
-                  <feature.icon className="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors" />
-                </div>
-                <h3 className="text-base font-semibold text-slate-200 mb-1">{feature.label}</h3>
-                <p className="text-xs text-slate-500">{feature.desc}</p>
-              </motion.div>
+            {["AICTE Approved", "NBA Accredited", "NAAC Graded A", "Autonomous"].map((tag) => (
+              <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 text-slate-400 text-xs font-medium rounded-full">
+                {tag}
+              </span>
             ))}
-          </motion.div>
-
-          {/* Quick Access Resources */}
-          <motion.div 
-            variants={itemVariants} 
-            className="w-full max-w-4xl mx-auto mt-16 pt-16 border-t border-slate-900/50"
-          >
-             <h3 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-6">Quick Access Resources</h3>
-             <div className="flex flex-wrap justify-center gap-3">
-               {[
-                 { label: "Student Portal", action: () => navigate("/dashboard") },
-                 { label: "Faculty Login", action: () => navigate("/login") },
-                 { label: "Academic Calendar", action: () => toast({ title: "Coming Soon", description: "Academic Calendar is under development." }) },
-                 { label: "Exam Results", action: () => toast({ title: "Coming Soon", description: "Exam Results are under development." }) },
-                 { label: "Support Center", action: () => toast({ title: "Coming Soon", description: "Support Center is under development." }) }
-               ].map((resource, i) => (
-                 <Button 
-                   key={i} 
-                   variant="outline" 
-                   onClick={resource.action}
-                   className="border-slate-800 bg-slate-950/30 text-slate-400 hover:text-blue-300 hover:border-blue-500/50 hover:bg-blue-500/5 transition-all rounded-full px-6 text-sm"
-                 >
-                   {resource.label}
-                 </Button>
-               ))}
-             </div>
           </motion.div>
         </motion.div>
       </div>
 
       {/* Footer */}
-      <div className="w-full border-t border-slate-900 bg-slate-950 py-6 z-20">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600">
-          <p>© 2024 Vignan Institute of Technology and Management. All rights reserved.</p>
-          <div className="flex gap-6 mt-2 md:mt-0">
-            <span className="hover:text-slate-400 cursor-pointer transition-colors">Privacy Policy</span>
-            <span className="hover:text-slate-400 cursor-pointer transition-colors">Terms of Service</span>
-            <span className="hover:text-slate-400 cursor-pointer transition-colors">Contact Support</span>
-          </div>
+      <div className="relative z-10 border-t border-white/5 py-4">
+        <div className="container mx-auto px-4 text-center text-xs text-slate-600">
+          © 2024 Vignan Institute of Technology and Management. All rights reserved.
         </div>
       </div>
     </div>

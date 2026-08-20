@@ -267,5 +267,163 @@
       "date": "2026-02-12",
       "time": "13:00"
     }
+  ],
+  "users": [
+    {
+      "id": "KA17dW6RcTDKyuEj9mZfX",
+      "rollNo": "admin",
+      "name": "Admin User",
+      "email": "admin@vignan.edu.in",
+      "phone": "9000000000",
+      "password": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+      "batch": "2024",
+      "year": "4th",
+      "role": "admin",
+      "createdAt": "2026-08-20T20:33:30.546Z"
+    },
+    {
+      "id": "iriocsoCopdG8Oy5XZlrk",
+      "rollNo": "21CS001",
+      "name": "Asish Ranjan Sahu",
+      "email": "asish@vignan.edu.in",
+      "phone": "9111111111",
+      "password": "264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb",
+      "batch": "2021",
+      "year": "4th",
+      "role": "student",
+      "createdAt": "2026-08-20T20:33:30.546Z"
+    },
+    {
+      "id": "fTt-JfWedgMeL-Hxvaty4",
+      "rollNo": "FAC001",
+      "name": "Dr. Renuka Swain",
+      "email": "renuka@vignan.edu.in",
+      "phone": "9222222222",
+      "password": "3dbd9cd5e1fb3e4f78542d53040b60990a9b4acfd6ab0b01133c5b8eeec45031",
+      "batch": "",
+      "year": "",
+      "role": "faculty",
+      "createdAt": "2026-08-20T20:33:30.546Z"
+    },
+    {
+      "id": "Qw6IpS9w51OjYly6frb7M",
+      "name": "asish",
+      "email": "asishranjansahu2003@gmail.com",
+      "phone": "6372411499",
+      "rollNo": "21",
+      "password": "fb435957fa8ba36e45cf22bdc06aa7e9166b85ab9dd8fd7516f7344046fcbe22",
+      "batch": "2021",
+      "year": "1st",
+      "role": "student",
+      "createdAt": "2026-08-20T21:21:59.511Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "1FTVq9k4Re19sJ2WltqnQ",
+      "title": "TechFest 2026 — Annual Technical Symposium",
+      "desc": "Three-day technical festival featuring coding competitions, robotics, hackathon, and guest lectures from industry leaders.",
+      "category": "Technical",
+      "location": "Main Auditorium",
+      "time": "10:00 AM",
+      "date": "2026-08-28",
+      "color": "blue",
+      "createdAt": "2026-08-20T21:05:31.869Z"
+    },
+    {
+      "id": "TRARAPJ0tjZTjGN0OjOPS",
+      "title": "Campus Recruitment Drive — TCS & Infosys",
+      "desc": "Joint campus placement drive for final year B.Tech students. Pre-placement talk followed by written test and interviews.",
+      "category": "Placement",
+      "location": "Seminar Hall",
+      "time": "9:00 AM",
+      "date": "2026-09-05",
+      "color": "emerald",
+      "createdAt": "2026-08-20T21:05:31.869Z"
+    },
+    {
+      "id": "7ej-mAtRsQaR1-Ggpk058",
+      "title": "Workshop on AI & Machine Learning",
+      "desc": "Hands-on workshop covering Python, TensorFlow, and real-world ML applications. Certificates provided for all participants.",
+      "category": "Workshop",
+      "location": "Computer Lab 3",
+      "time": "2:00 PM",
+      "date": "2026-09-12",
+      "color": "purple",
+      "createdAt": "2026-08-20T21:05:31.869Z"
+    },
+    {
+      "id": "0NImeRHrz92XzCs3pUHz-",
+      "title": "Annual Sports Meet — VITAM Olympics",
+      "desc": "Inter-department sports competition featuring cricket, football, badminton, athletics, and more. Cash prizes worth ₹50,000.",
+      "category": "Sports",
+      "location": "Sports Ground",
+      "time": "7:00 AM",
+      "date": "2026-09-20",
+      "color": "amber",
+      "createdAt": "2026-08-20T21:05:31.869Z"
+    }
+  ],
+  "notices": [
+    {
+      "id": "SXLoVXgsrJwKI8Z4-PMwR",
+      "title": "Notice Details — Exam Schedule & Guidelines",
+      "desc": "Detailed examination schedule, guidelines for students, and internal assessment criteria for the odd semester 2026-27.",
+      "category": "Examination",
+      "date": "2026-08-15",
+      "isNew": true,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:14:44.026Z"
+    },
+    {
+      "id": "Q5O1cFhliywW0oBwRPTQm",
+      "title": "Revised Academic Calendar — Odd Semester 2026",
+      "desc": "Updated academic calendar with mid-term holidays, internal exam dates, and semester end examination schedule.",
+      "category": "Academic",
+      "date": "2026-08-10",
+      "isNew": true,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:14:44.027Z"
+    },
+    {
+      "id": "wFlnU6z7eSXz2VwC5jmwv",
+      "title": "Campus Placement Drive — TCS, Infosys, Wipro",
+      "desc": "Eligibility criteria, registration process, and preparation guidelines for the upcoming joint campus placement drive.",
+      "category": "Placement",
+      "date": "2026-08-05",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:14:44.027Z"
+    },
+    {
+      "id": "r0VXGJ7SOrrzQDTPtxbcb",
+      "title": "Anti-Ragging Committee — Zero Tolerance Policy",
+      "desc": "Mandatory anti-ragging affidavit submission for all new admissions. Helpline numbers and reporting procedures.",
+      "category": "General",
+      "date": "2026-07-28",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:14:44.027Z"
+    },
+    {
+      "id": "IY8oHZpdQTmeowpXwxwDT",
+      "title": "TechFest 2026 — Registration Open",
+      "desc": "Annual technical festival registrations are now open. Teams can register for hackathon, robotics, and coding events.",
+      "category": "Events",
+      "date": "2026-07-20",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:14:44.027Z"
+    },
+    {
+      "id": "AC98lKSbqZWgRjXXGcPaD",
+      "title": "Library Timing Extension During Exams",
+      "desc": "Central library will remain open until 10 PM during the examination period. Additional study rooms available.",
+      "category": "Academic",
+      "date": "2026-07-15",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:14:44.027Z"
+    }
   ]
 }

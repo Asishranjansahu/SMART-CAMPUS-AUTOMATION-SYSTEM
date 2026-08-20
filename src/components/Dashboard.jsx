@@ -14,11 +14,8 @@ import {
   Activity
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { getAttendanceStats, getBooks, getOrders, getAlerts } from "@/lib/api";
 
 const Dashboard = () => {
-  const { toast } = useToast();
   const [stats, setStats] = useState({
     present: 0,
     borrowed: 0,
