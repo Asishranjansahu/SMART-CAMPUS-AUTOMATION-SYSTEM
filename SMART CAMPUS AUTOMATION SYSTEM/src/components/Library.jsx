@@ -16,8 +16,9 @@ const Library = () => {
 
   useEffect(() => {
     // Simulate loading for better UX
-    setTimeout(() => {
-      getBooks().then((data) => {
+    const loadBooks = async () => {
+      try {
+        const data = await getBooks();
         if (data && data.length > 0) {
           setBooks(data);
         } else {
@@ -32,8 +33,17 @@ const Library = () => {
           ]);
         }
         setLoading(false);
-      });
-    }, 800);
+      } catch (err) {
+        // API unavailable, use fallback mock data
+        setBooks([
+          { id: 1, title: "Introduction to Algorithms", author: "Thomas H. Cormen", category: "Computer Science", status: "available", rating: 4.8, pages: 1312 },
+          { id: 2, title: "Clean Code", author: "Robert C. Martin", category: "Software Engineering", status: "borrowed", rating: 4.7, pages: 464 },
+          { id: 3, title: "AI: A Modern Approach", author: "Stuart Russell", category: "AI & ML", status: "available", rating: 4.9, pages: 1152 },
+        ]);
+        setLoading(false);
+      }
+    };
+    setTimeout(loadBooks, 800);
   }, []);
 
   const handleBorrow = async (bookId, bookTitle) => {
