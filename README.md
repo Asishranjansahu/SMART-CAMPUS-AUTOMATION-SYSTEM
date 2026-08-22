@@ -1,6 +1,6 @@
-# 🎓 Smart Campus Automation System
+# Smart Campus Automation System
 
-A comprehensive web-based platform for automating and managing various campus operations, built with React, Vite, and Express.
+A full-stack web application for streamlining academic and operational workflows across a campus environment.
 
 ![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-4.4.5-646CFF?logo=vite)
@@ -8,217 +8,153 @@ A comprehensive web-based platform for automating and managing various campus op
 ![Express](https://img.shields.io/badge/Express-4.18.2-000000?logo=express)
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-4.7.2-010101?logo=socket.io)
 
-## 📋 Overview
+## Overview
 
-The Smart Campus Automation System is a modern, full-stack web application designed to streamline campus operations and enhance the student experience. It provides a centralized platform for managing attendance, library services, cafeteria, transport, room bookings, events, and much more.
+Smart Campus Automation System provides a centralized digital platform for students, faculty, and administrators to manage key campus services, including attendance, library operations, transport, room bookings, announcements, and safety workflows.
 
-## ✨ Key Features
+## Core Capabilities
 
-### 🎯 Student Services
-- **📊 Attendance Tracking** - Real-time attendance monitoring and reporting
-- **📚 Library Management** - Book search, issue, return, and availability tracking
-- **🍽️ Cafeteria Services** - Digital menu, ordering, and payment system
-- **🏛️ Room Booking** - Easy classroom and facility reservation
+### Student Services
+- Attendance tracking with reporting
+- Library catalog and issue/return workflows
+- Cafeteria menu, ordering, and payment workflows
+- Classroom and facility booking
 
-### 🚌 Campus Operations
-- **🚍 Transport Management** - Live bus tracking and schedule management
-- **🔒 Security Monitoring** - Campus security features and alerts
-- **♻️ Smart Dustbin** - IoT-enabled waste management monitoring
-- **🏢 Premises Monitoring** - Facility oversight and maintenance tracking
+### Campus Operations
+- Transport monitoring and schedule management
+- Security and premises monitoring
+- Smart dustbin status tracking
+- Maintenance visibility for campus facilities
 
-### 📢 Information & Communication
-- **🎉 Events Calendar** - Campus event scheduling and notifications
-- **📌 Digital Notice Board** - Real-time announcements and updates
-- **💼 Placement Portal** - Job opportunities and placement tracking
-- **🔍 Lost & Found** - Item tracking and recovery system
+### Communication and Engagement
+- Events calendar and notifications
+- Digital notice board for announcements
+- Placement portal for opportunities
+- Lost and found management
 
-### 🛡️ Safety & Support
-- **🆘 Anti-Ragging Helpline** - Emergency support and reporting
-- **🗺️ Interactive Campus Map** - Location-based navigation using Leaflet
-- **🎤 Voice Assistant** - Voice-controlled campus information
+### Safety and Assistance
+- Anti-ragging support and reporting
+- Interactive campus navigation (Leaflet)
+- Voice-enabled assistant workflows
 
-### 📈 Analytics
-- **📊 Dashboard Analytics** - Real-time campus statistics and insights
-- **📉 Data Visualization** - Interactive charts using Recharts
-- **👤 Face Recognition** - Advanced attendance using face-api.js
+### Analytics
+- Operational dashboards and KPIs
+- Data visualizations using Recharts
+- Face-recognition-based attendance support
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Frontend
-- **React 18.2.0** - Modern UI library
-- **Vite 4.4.5** - Lightning-fast build tool
-- **Tailwind CSS 3.3.3** - Utility-first CSS framework
-- **Radix UI** - Accessible component primitives
-- **Framer Motion** - Smooth animations
-- **React Router DOM** - Client-side routing
-- **Recharts** - Data visualization
-- **Leaflet** - Interactive maps
-- **Socket.IO Client** - Real-time communication
+- React 18
+- Vite
+- Tailwind CSS
+- Radix UI
+- Framer Motion
+- React Router DOM
+- Recharts
+- Leaflet
+- Socket.IO Client
 
 ### Backend
-- **Node.js** - JavaScript runtime
-- **Express 4.18.2** - Web application framework
-- **LowDB 7.0.1** - Lightweight JSON database
-- **Socket.IO 4.7.2** - Real-time bidirectional communication
-- **CORS** - Cross-origin resource sharing
+- Node.js
+- Express
+- LowDB
+- Socket.IO
+- CORS
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
+- Node.js 16+
+- npm
 
 ### Installation
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/SMART-CAMPUS-AUTOMATION-SYSTEM.git
+   git clone https://github.com/Asishranjansahu/SMART-CAMPUS-AUTOMATION-SYSTEM.git
    cd SMART-CAMPUS-AUTOMATION-SYSTEM
    ```
 
-2. **Install frontend dependencies**
+2. Install frontend dependencies:
    ```bash
-   cd "SMART CAMPUS AUTOMATION SYSTEM"
    npm install
    ```
 
-3. **Install backend dependencies**
+3. Install backend dependencies:
    ```bash
    cd server
    npm install
    cd ..
    ```
 
-### Running the Application
+## Run Locally
 
-1. **Start the backend server**
+1. Start the backend server:
    ```bash
-   cd "SMART CAMPUS AUTOMATION SYSTEM/server"
+   cd server
    npm start
    ```
-   Server will run on `http://localhost:3000`
+   Backend runs at `http://localhost:3000`
 
-2. **Start the frontend (in a new terminal)**
+2. Start the frontend in a new terminal:
    ```bash
-   cd "SMART CAMPUS AUTOMATION SYSTEM"
    npm run dev
    ```
-   Frontend will run on `http://localhost:5173`
+   Frontend runs at `http://localhost:5173`
 
-3. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-### Building for Production
+## Build for Production
 
 ```bash
-cd "SMART CAMPUS AUTOMATION SYSTEM"
 npm run build
 npm run preview
 ```
 
-## 📁 Project Structure
+## Project Structure
 
-```
+```text
 SMART-CAMPUS-AUTOMATION-SYSTEM/
-├── SMART CAMPUS AUTOMATION SYSTEM/
-│   ├── src/
-│   │   ├── components/          # React components
-│   │   │   ├── ui/              # Reusable UI components
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── Login.jsx
-│   │   │   └── ... (20+ feature components)
-│   │   ├── lib/                 # Utility libraries
-│   │   ├── App.jsx              # Main app component
-│   │   └── main.jsx             # Entry point
-│   ├── server/                  # Backend server
-│   │   ├── server.js            # Express server
-│   │   ├── db.js                # Database config
-│   │   └── data.json            # JSON database
-│   ├── public/                  # Static assets
-│   ├── package.json
-│   └── vite.config.js
-├── PROJECT_STRUCTURE.md         # Detailed structure docs
-└── README.md                    # This file
+├── public/                  # Static assets
+├── server/                  # Backend (Express + LowDB)
+│   ├── server.js
+│   ├── db.js
+│   └── data.json
+├── src/                     # Frontend source (React)
+│   ├── components/
+│   ├── lib/
+│   ├── App.jsx
+│   └── main.jsx
+├── package.json
+└── README.md
 ```
 
-For detailed project structure, see [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
+For full details, see [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
 
-## 🎨 Features Showcase
+## Security Considerations
 
-### Dashboard
-- Real-time statistics and analytics
-- Quick access to all modules
-- Personalized user experience
+- Route-level authentication controls
+- Role-specific operational workflows
+- Sensitive workflows (attendance/safety) isolated by module boundaries
 
-### Attendance System
-- Face recognition integration
-- Automated attendance marking
-- Detailed attendance reports
+## Contributing
 
-### Library Management
-- Advanced book search
-- Digital issue/return system
-- Availability tracking
+Contributions are welcome.
 
-### Transport Tracking
-- Live bus location tracking
-- Route information
-- Schedule management
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m "feat: describe your change"`)
+4. Push the branch
+5. Open a pull request
 
-## 🔐 Security
+## License
 
-- Protected routes with authentication
-- Face recognition for attendance
-- Secure data handling
-- Anti-ragging emergency system
+This project is distributed under the [MIT License](LICENSE).
 
-## 📱 Responsive Design
+## Authors
 
-The application is fully responsive and works seamlessly across:
-- 💻 Desktop
-- 📱 Tablet
-- 📱 Mobile devices
+- Asish Ranjan Sahu
+- Renuka Swain
 
-## 🤝 Contributing
+## Support
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👥 Authors
-
-- Asish Ranjan Sahu - Initial work
-- Renuka Swain - Contributor
-
-## 🙏 Acknowledgments
-
-- Radix UI for accessible components
-- Tailwind CSS for styling utilities
-- Vite for blazing fast development
-- All contributors and supporters
-
-## 📞 Support
-
-For support, email asishranjansahu2003@gmail.com or open an issue in the repository.
-
-## 🔮 Future Roadmap
-
-- [ ] Mobile app (React Native/Capacitor)
-- [ ] Advanced AI-powered recommendations
-- [ ] Multi-language support
-- [ ] Progressive Web App (PWA) features
-- [ ] Integration with campus ERP systems
-- [ ] Advanced analytics dashboard
-- [ ] Notification system (Email/SMS)
-
----
-
-**Made with ❤️ for smarter campuses**
+For support, open an issue in this repository.
