@@ -1,0 +1,301 @@
+{
+  "users": [
+    {
+      "id": "xkeOXXutesMxCg92Yuet3",
+      "rollNo": "admin",
+      "name": "Admin User",
+      "email": "admin@vignan.edu.in",
+      "phone": "9000000000",
+      "password": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+      "batch": "2024",
+      "year": "4th",
+      "role": "admin",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "q2tFFq01LOXwb2q_6_YhU",
+      "rollNo": "21CS001",
+      "name": "Asish Ranjan Sahu",
+      "email": "asish@vignan.edu.in",
+      "phone": "9111111111",
+      "password": "264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb",
+      "batch": "2021",
+      "year": "4th",
+      "role": "student",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "ePHBMnWpnFUV7ANp0vVbM",
+      "rollNo": "FAC001",
+      "name": "Dr. Renuka Swain",
+      "email": "renuka@vignan.edu.in",
+      "phone": "9222222222",
+      "password": "3dbd9cd5e1fb3e4f78542d53040b60990a9b4acfd6ab0b01133c5b8eeec45031",
+      "batch": "",
+      "year": "",
+      "role": "faculty",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "hVkYBgYPiGiXXUBDOPe1H",
+      "name": "ASISH RANJAN SAHU",
+      "email": "asishranjansahu2003@gmail.com",
+      "phone": "6372411499",
+      "rollNo": "21",
+      "password": "be488ec8f27c95e4355beb1d7c3ba6bc08c1b80f156097e01e9e6be329e70f42",
+      "batch": "2022",
+      "year": "2nd",
+      "role": "student",
+      "createdAt": "2026-08-20T22:18:20.814Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "Dic_OF0_K0qwEhnuPjbal",
+      "title": "TechFest 2026 — Annual Technical Symposium",
+      "desc": "Three-day technical festival featuring coding competitions, robotics, hackathon, and guest lectures from industry leaders.",
+      "category": "Technical",
+      "location": "Main Auditorium",
+      "time": "10:00 AM",
+      "date": "2026-08-28",
+      "color": "blue",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "rndMZnC98jXBYMdIbykqr",
+      "title": "Campus Recruitment Drive — TCS & Infosys",
+      "desc": "Joint campus placement drive for final year B.Tech students. Pre-placement talk followed by written test and interviews.",
+      "category": "Placement",
+      "location": "Seminar Hall",
+      "time": "9:00 AM",
+      "date": "2026-09-05",
+      "color": "emerald",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "2Ttb8bobfidFjoiVDT9Z5",
+      "title": "Workshop on AI & Machine Learning",
+      "desc": "Hands-on workshop covering Python, TensorFlow, and real-world ML applications. Certificates provided for all participants.",
+      "category": "Workshop",
+      "location": "Computer Lab 3",
+      "time": "2:00 PM",
+      "date": "2026-09-12",
+      "color": "purple",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "hh2s-jFsEXP-IbIidem2x",
+      "title": "Annual Sports Meet — VITAM Olympics",
+      "desc": "Inter-department sports competition featuring cricket, football, badminton, athletics, and more. Cash prizes worth ₹50,000.",
+      "category": "Sports",
+      "location": "Sports Ground",
+      "time": "7:00 AM",
+      "date": "2026-09-20",
+      "color": "amber",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    }
+  ],
+  "notices": [
+    {
+      "id": "rV3vELJrpjXzT3fwfybfc",
+      "title": "Notice Details — Exam Schedule & Guidelines",
+      "desc": "Detailed examination schedule, guidelines for students, and internal assessment criteria for the odd semester 2026-27.",
+      "category": "Examination",
+      "date": "2026-08-15",
+      "isNew": true,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "ZaWLczQVv8FFK2X4mgG9z",
+      "title": "Revised Academic Calendar — Odd Semester 2026",
+      "desc": "Updated academic calendar with mid-term holidays, internal exam dates, and semester end examination schedule.",
+      "category": "Academic",
+      "date": "2026-08-10",
+      "isNew": true,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "3zSE8Os_Wd7atl_ZQsDjo",
+      "title": "Campus Placement Drive — TCS, Infosys, Wipro",
+      "desc": "Eligibility criteria, registration process, and preparation guidelines for the upcoming joint campus placement drive.",
+      "category": "Placement",
+      "date": "2026-08-05",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "nmTw4NyW2dFEdGerVkKYp",
+      "title": "Anti-Ragging Committee — Zero Tolerance Policy",
+      "desc": "Mandatory anti-ragging affidavit submission for all new admissions. Helpline numbers and reporting procedures.",
+      "category": "General",
+      "date": "2026-07-28",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "LrzuXW91zxGUPTjdej11Z",
+      "title": "TechFest 2026 — Registration Open",
+      "desc": "Annual technical festival registrations are now open. Teams can register for hackathon, robotics, and coding events.",
+      "category": "Events",
+      "date": "2026-07-20",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    },
+    {
+      "id": "hmiG136M4x_1EXT_49QEe",
+      "title": "Library Timing Extension During Exams",
+      "desc": "Central library will remain open until 10 PM during the examination period. Additional study rooms available.",
+      "category": "Academic",
+      "date": "2026-07-15",
+      "isNew": false,
+      "file": "/Notice Details.pdf",
+      "createdAt": "2026-08-20T21:59:50.239Z"
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "name": "Asish Kumar Sahani"
+    },
+    {
+      "id": 2,
+      "name": "Sibani Swain"
+    },
+    {
+      "id": 3,
+      "name": "Renuka Swain"
+    },
+    {
+      "id": 4,
+      "name": "Asish Ranjan Sahu"
+    },
+    {
+      "id": 5,
+      "name": "Ankita Mahapatra"
+    }
+  ],
+  "attendance": [
+    {
+      "id": "fMENs9vcr9hweb0Geerma",
+      "student_id": 1,
+      "date": "2026-08-20",
+      "status": "present"
+    },
+    {
+      "id": "rgKEPBap7YpVvQYa9RGRB",
+      "student_id": 2,
+      "date": "2026-08-20",
+      "status": "absent"
+    },
+    {
+      "id": "xZx74dKMTWaNwWRQc-cOP",
+      "student_id": 3,
+      "date": "2026-08-20",
+      "status": "present"
+    },
+    {
+      "id": "XvS2FRT2qp2iCOtcMM-E1",
+      "student_id": 4,
+      "date": "2026-08-20",
+      "status": "present"
+    },
+    {
+      "id": "rvy6PtDLwP5t2zuRq0LJS",
+      "student_id": 5,
+      "date": "2026-08-20",
+      "status": "absent"
+    }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "title": "Introduction to Computer Science",
+      "author": "John Smith",
+      "status": "available"
+    },
+    {
+      "id": 2,
+      "title": "Advanced Mathematics",
+      "author": "Sarah Johnson",
+      "status": "borrowed"
+    },
+    {
+      "id": 3,
+      "title": "Modern Physics",
+      "author": "Michael Brown",
+      "status": "available"
+    }
+  ],
+  "menu_items": [
+    {
+      "id": 1,
+      "name": "Breakfast Combo",
+      "price": 50,
+      "description": "Eggs, toast, and coffee",
+      "category": "Breakfast"
+    },
+    {
+      "id": 2,
+      "name": "Chicken Sandwich",
+      "price": 70,
+      "description": "Grilled chicken with fresh veggies",
+      "category": "Lunch"
+    },
+    {
+      "id": 3,
+      "name": "Vegetarian Pizza",
+      "price": 100,
+      "description": "Fresh vegetables and cheese",
+      "category": "Lunch"
+    }
+  ],
+  "orders": [],
+  "security_alerts": [
+    {
+      "id": "AFMfWH6gOgjNtp1CbgJzJ",
+      "type": "Gate Access",
+      "location": "Main Gate",
+      "time": "10:30 AM",
+      "status": "Resolved"
+    },
+    {
+      "id": "wXRG8q2dy-IMxpeDo3Qfj",
+      "type": "Motion Detected",
+      "location": "Library",
+      "time": "11:45 AM",
+      "status": "Active"
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Conference Hall A",
+      "capacity": 100,
+      "features": "Projector, Sound System"
+    },
+    {
+      "id": 2,
+      "name": "Seminar Room",
+      "capacity": 30,
+      "features": "Whiteboard, TV"
+    },
+    {
+      "id": 3,
+      "name": "Computer Lab 1",
+      "capacity": 50,
+      "features": "50 PCs, Internet"
+    },
+    {
+      "id": 4,
+      "name": "Meeting Room",
+      "capacity": 10,
+      "features": "Round Table"
+    }
+  ],
+  "bookings": []
+}
