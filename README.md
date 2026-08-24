@@ -1,224 +1,88 @@
-# 🎓 Smart Campus Automation System
+<div align="center">
 
-A comprehensive web-based platform for automating and managing various campus operations, built with React, Vite, and Express.
+# 🏛️ Smart Campus Automation System (SCAS)
 
-![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)
-![Vite](https://img.shields.io/badge/Vite-4.4.5-646CFF?logo=vite)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3.3-38B2AC?logo=tailwind-css)
-![Express](https://img.shields.io/badge/Express-4.18.2-000000?logo=express)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-4.7.2-010101?logo=socket.io)
+### Next-Generation Distributed Campus Operations & Real-Time IoT Telemetry Platform
 
-## 📋 Overview
+[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-Passing-2ea44f?style=flat-square&logo=githubactions&logoColor=white)](https://github.com/Asishranjansahu/SMART-CAMPUS-AUTOMATION-SYSTEM)
+[![React](https://img.shields.io/badge/React-v18.2.0-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-v4.4.5-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-v18.x_%7C_v20.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express-v4.18.2-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![Socket.io](https://img.shields.io/badge/Socket.IO-v4.7.2-010101?style=flat-square&logo=socket.io&logoColor=white)](https://socket.io/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-v3.3.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 
-The Smart Campus Automation System is a modern, full-stack web application designed to streamline campus operations and enhance the student experience. It provides a centralized platform for managing attendance, library services, cafeteria, transport, room bookings, events, and much more.
+<p align="center">
+  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-key-modules--capabilities">Capabilities</a> •
+  <a href="#-technology-stack">Tech Stack</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-api--event-contracts">API Reference</a> •
+  <a href="#-security--privacy-architecture">Security & Privacy</a>
+</p>
 
-## ✨ Key Features
-
-### 🎯 Student Services
-- **📊 Attendance Tracking** - Real-time attendance monitoring and reporting
-- **📚 Library Management** - Book search, issue, return, and availability tracking
-- **🍽️ Cafeteria Services** - Digital menu, ordering, and payment system
-- **🏛️ Room Booking** - Easy classroom and facility reservation
-
-### 🚌 Campus Operations
-- **🚍 Transport Management** - Live bus tracking and schedule management
-- **🔒 Security Monitoring** - Campus security features and alerts
-- **♻️ Smart Dustbin** - IoT-enabled waste management monitoring
-- **🏢 Premises Monitoring** - Facility oversight and maintenance tracking
-
-### 📢 Information & Communication
-- **🎉 Events Calendar** - Campus event scheduling and notifications
-- **📌 Digital Notice Board** - Real-time announcements and updates
-- **💼 Placement Portal** - Job opportunities and placement tracking
-- **🔍 Lost & Found** - Item tracking and recovery system
-
-### 🛡️ Safety & Support
-- **🆘 Anti-Ragging Helpline** - Emergency support and reporting
-- **🗺️ Interactive Campus Map** - Location-based navigation using Leaflet
-- **🎤 Voice Assistant** - Voice-controlled campus information
-
-### 📈 Analytics
-- **📊 Dashboard Analytics** - Real-time campus statistics and insights
-- **📉 Data Visualization** - Interactive charts using Recharts
-- **👤 Face Recognition** - Advanced attendance using face-api.js
-
-## 🛠️ Technology Stack
-
-### Frontend
-- **React 18.2.0** - Modern UI library
-- **Vite 4.4.5** - Lightning-fast build tool
-- **Tailwind CSS 3.3.3** - Utility-first CSS framework
-- **Radix UI** - Accessible component primitives
-- **Framer Motion** - Smooth animations
-- **React Router DOM** - Client-side routing
-- **Recharts** - Data visualization
-- **Leaflet** - Interactive maps
-- **Socket.IO Client** - Real-time communication
-
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express 4.18.2** - Web application framework
-- **LowDB 7.0.1** - Lightweight JSON database
-- **Socket.IO 4.7.2** - Real-time bidirectional communication
-- **CORS** - Cross-origin resource sharing
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/SMART-CAMPUS-AUTOMATION-SYSTEM.git
-   cd SMART-CAMPUS-AUTOMATION-SYSTEM
-   ```
-
-2. **Install frontend dependencies**
-   ```bash
-   cd "SMART CAMPUS AUTOMATION SYSTEM"
-   npm install
-   ```
-
-3. **Install backend dependencies**
-   ```bash
-   cd server
-   npm install
-   cd ..
-   ```
-
-### Running the Application
-
-1. **Start the backend server**
-   ```bash
-   cd "SMART CAMPUS AUTOMATION SYSTEM/server"
-   npm start
-   ```
-   Server will run on `http://localhost:3000`
-
-2. **Start the frontend (in a new terminal)**
-   ```bash
-   cd "SMART CAMPUS AUTOMATION SYSTEM"
-   npm run dev
-   ```
-   Frontend will run on `http://localhost:5173`
-
-3. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-### Building for Production
-
-```bash
-cd "SMART CAMPUS AUTOMATION SYSTEM"
-npm run build
-npm run preview
-```
-
-## 📁 Project Structure
-
-```
-SMART-CAMPUS-AUTOMATION-SYSTEM/
-├── SMART CAMPUS AUTOMATION SYSTEM/
-│   ├── src/
-│   │   ├── components/          # React components
-│   │   │   ├── ui/              # Reusable UI components
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── Login.jsx
-│   │   │   └── ... (20+ feature components)
-│   │   ├── lib/                 # Utility libraries
-│   │   ├── App.jsx              # Main app component
-│   │   └── main.jsx             # Entry point
-│   ├── server/                  # Backend server
-│   │   ├── server.js            # Express server
-│   │   ├── db.js                # Database config
-│   │   └── data.json            # JSON database
-│   ├── public/                  # Static assets
-│   ├── package.json
-│   └── vite.config.js
-├── PROJECT_STRUCTURE.md         # Detailed structure docs
-└── README.md                    # This file
-```
-
-For detailed project structure, see [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
-
-## 🎨 Features Showcase
-
-### Dashboard
-- Real-time statistics and analytics
-- Quick access to all modules
-- Personalized user experience
-
-### Attendance System
-- Face recognition integration
-- Automated attendance marking
-- Detailed attendance reports
-
-### Library Management
-- Advanced book search
-- Digital issue/return system
-- Availability tracking
-
-### Transport Tracking
-- Live bus location tracking
-- Route information
-- Schedule management
-
-## 🔐 Security
-
-- Protected routes with authentication
-- Face recognition for attendance
-- Secure data handling
-- Anti-ragging emergency system
-
-## 📱 Responsive Design
-
-The application is fully responsive and works seamlessly across:
-- 💻 Desktop
-- 📱 Tablet
-- 📱 Mobile devices
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👥 Authors
-
-- Asish Ranjan Sahu - Initial work
-- Renuka Swain - Contributor
-
-## 🙏 Acknowledgments
-
-- Radix UI for accessible components
-- Tailwind CSS for styling utilities
-- Vite for blazing fast development
-- All contributors and supporters
-
-## 📞 Support
-
-For support, email asishranjansahu2003@gmail.com or open an issue in the repository.
-
-## 🔮 Future Roadmap
-
-- [ ] Mobile app (React Native/Capacitor)
-- [ ] Advanced AI-powered recommendations
-- [ ] Multi-language support
-- [ ] Progressive Web App (PWA) features
-- [ ] Integration with campus ERP systems
-- [ ] Advanced analytics dashboard
-- [ ] Notification system (Email/SMS)
+</div>
 
 ---
 
-**Made with ❤️ for smarter campuses**
+## 📌 Executive Overview
+
+**Smart Campus Automation System (SCAS)** is a centralized, high-concurrency operations management platform engineered for modern higher education institutions. It aggregates disparate institutional services—ranging from **edge biometric verification** and **IoT waste telemetry** to **live geospatial fleet tracking** and **emergency critical incident dispatch**—into an event-driven, single-pane-of-glass architecture.
+
+### Key Architectural Highlights
+- **Privacy-First Edge Biometrics:** Client-side neural inferencing via WebGL eliminates server-side raw facial image storage.
+- **Bi-Directional Event Mesh:** Real-time push updates via WebSockets (Socket.IO) for live IoT telemetry and fleet tracking.
+- **Micro-Modular Domain Design:** Clean separation of concerns across authentication, spatial mapping, resource allocation, and facility services.
+- **Lightweight State & Persistence:** Zero-overhead atomic JSON document store backed by LowDB with zero database setup requirement for rapid staging.
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+    subgraph ClientLayer ["Client Layer (React 18 Single-Page Application)"]
+        UI["Tailwind CSS + Radix UI Engine"]
+        Router["React Router DOM (Protected Routes)"]
+        EdgeAI["@vladmandic/face-api (Client-side WebGL Tensor Inference)"]
+        GeoEngine["Leaflet Geospatial Map Renderer"]
+        Charts["Recharts Telemetry Dashboard"]
+        SocketClient["Socket.IO Client (Reactive State Listeners)"]
+    end
+
+    subgraph TransportLayer ["Network & Ingestion Layer"]
+        HTTP["RESTful HTTP/HTTPS Endpoints"]
+        WS["Full-Duplex WebSocket Channels"]
+    end
+
+    subgraph ServiceLayer ["Backend Core (Express.js Monolith)"]
+        AuthMid["RBAC & Session Middleware"]
+        EventBus["Socket.IO Event Dispatcher"]
+        
+        subgraph Subsystems ["Core Service Controllers"]
+            AttendanceCtrl["Attendance & Identity Controller"]
+            TransitCtrl["Transit & Telemetry Controller"]
+            FacilityCtrl["Facility & Resource Allocation"]
+            SafetyCtrl["Emergency SOS & Anti-Ragging Dispatch"]
+            ServicesCtrl["Auxiliary Services (Library / Cafeteria / Notice)"]
+        end
+    end
+
+    subgraph PersistenceLayer ["Persistence & File Storage"]
+        LowDB[("LowDB Typed JSON Store")]
+        ModelStore[("Local Model Shards /public/models/")]
+    end
+
+    %% Flow Connections
+    ClientLayer -->|REST Mutations / Queries| HTTP
+    SocketClient <-->|Bi-Directional Events| WS
+    EdgeAI -.->|Loads Weights On-Demand| ModelStore
+
+    HTTP --> AuthMid
+    AuthMid --> Subsystems
+    WS <--> EventBus
+    EventBus <--> Subsystems
+
+    Subsystems --> LowDB
