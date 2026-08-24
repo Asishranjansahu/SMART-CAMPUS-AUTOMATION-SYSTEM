@@ -45,7 +45,7 @@ flowchart TB
     subgraph ClientLayer ["Presentation & Edge Layer (React 18 + Vite)"]
         UI["Tailwind CSS + Radix UI Primitives"]
         Router["React Router DOM (Protected Routes)"]
-        EdgeAI["@vladmandic/face-api (Client-side WebGL Tensor Inference)"]
+        EdgeAI["Face API (Client-side WebGL Tensor Inference)"]
         GeoEngine["Leaflet GIS Geospatial Renderer"]
         AnalyticsEngine["Recharts Telemetry Dashboard"]
         SocketClient["Socket.IO Client (Reactive Event Listeners)"]
@@ -65,19 +65,18 @@ flowchart TB
             TransitCtrl["Transit & Fleet Controller"]
             FacilityCtrl["Room & Resource Scheduler"]
             SafetyCtrl["Emergency SOS Dispatcher"]
-            AuxCtrl["Auxiliary Services (Cafeteria / Library / Notices)"]
+            AuxCtrl["Auxiliary Services"]
         end
     end
 
     subgraph StorageLayer ["Persistence & Assets"]
-        LowDB[("LowDB Typed JSON Store (data.json)")]
-        ModelWeights[("Face-API Neural Weights (/public/models)")]
+        LowDB[("LowDB Typed JSON Store")]
+        ModelWeights[("Face-API Neural Weights")]
     end
 
-    %% Pipeline Connections
-    ClientLayer -->|REST Queries / Mutations| HTTP
-    SocketClient <-->|Bi-Directional Telemetry| WS
-    EdgeAI -.->|Loads Model Shards| ModelWeights
+    ClientLayer --> HTTP
+    SocketClient <--> WS
+    EdgeAI -.-> ModelWeights
 
     HTTP --> AuthMid
     AuthMid --> Subsystems
@@ -85,16 +84,28 @@ flowchart TB
     EventBus <--> Subsystems
 
     Subsystems --> LowDB
-📦 Key Modules & Capabilities
-Module	Core Engine	Technical Description
-Biometric Attendance	Edge Neural Vision	Client-side facial verification using 128-d embeddings via @vladmandic/face-api. Zero raw image storage.
-Geospatial Fleet Tracking	Leaflet / OSM	Real-time transit bus coordinate stream with interactive route polyline overlays and live speed metrics.
-Smart Waste Management	IoT WebSocket Telemetry	Ultrasonic bin fill-level telemetry with dynamic threshold overflow alerts and visual gauges.
-Critical Safety / Anti-Ragging	Emergency SOS Dispatcher	Instantaneous incident beaconing with location metadata and high-priority administrative broadcast.
-Venue & Room Booking	Resource Scheduler	Conflict-free room, lab, and auditorium reservation management with role-based validation.
-Cafeteria & Library POS	Catalog Management	Token-based contactless food ordering pipeline and book inventory check-in/checkout ledger.
-AI Voice Assistant	Web Speech API	Integrated conversational voice command processor for hands-free system navigation.
-Telemetry Analytics	Recharts Engine	Dynamic visualization of institutional footfall, attendance trends, and resource utilization.
+```
+
+---
+
+## 📦 Key Modules & Capabilities
+
+| Module | Core Engine | Technical Description |
+| :--- | :--- | :--- |
+| **Biometric Attendance** | Edge Neural Vision | Client-side facial verification using 128-d embeddings via `@vladmandic/face-api`. Zero raw image storage. |
+| **Geospatial Fleet Tracking** | Leaflet / OSM | Real-time transit bus coordinate stream with interactive route polyline overlays and live speed metrics. |
+| **Smart Waste Management** | IoT WebSocket Telemetry | Ultrasonic bin fill-level telemetry with dynamic threshold overflow alerts and visual gauges. |
+| **Critical Safety / Anti-Ragging** | Emergency SOS Dispatcher | Instantaneous incident beaconing with location metadata and high-priority administrative broadcast. |
+| **Venue & Room Booking** | Resource Scheduler | Conflict-free room, lab, and auditorium reservation management with role-based validation. |
+| **Cafeteria & Library POS** | Catalog Management | Token-based contactless food ordering pipeline and book inventory check-in/checkout ledger. |
+| **AI Voice Assistant** | Web Speech API | Integrated conversational voice command processor for hands-free system navigation. |
+| **Telemetry Analytics** | Recharts Engine | Dynamic visualization of institutional footfall, attendance trends, and resource utilization. |
+
+---
+
+## 🛠️ Technology Stack
+
+```text
 ├── Frontend
 │   ├── Framework:             React 18.2.0
 │   ├── Build Engine:          Vite 4.4.5
@@ -117,7 +128,13 @@ Telemetry Analytics	Recharts Engine	Dynamic visualization of institutional footf
     ├── Package Manager:       npm (or yarn / pnpm)
     ├── Code Quality:          ESLint + Prettier
     └── Build Minifier:        Terser
+```
 
+---
+
+## 📂 Repository Structure
+
+```text
 SMART-CAMPUS-AUTOMATION-SYSTEM/
 ├── src/                               # Frontend Single-Page Application
 │   ├── components/                    # Feature domain modules
@@ -154,69 +171,63 @@ SMART-CAMPUS-AUTOMATION-SYSTEM/
 ├── tailwind.config.js                 # Design tokens & color system
 ├── vercel.json                        # Deployment & SPA rewrite routing
 └── package.json                       # Root client dependencies manifest
+```
 
-🚦 Quick Start
-Prerequisites
-Node.js: v18.x or v20.x LTS
-npm: v9.x or higher
-WebCam Hardware: Required for facial recognition inference.
-1. Clone the Repository
-code
-Bash
+---
+
+## 🚦 Quick Start
+
+### Prerequisites
+- **Node.js**: `v18.x` or `v20.x` LTS
+- **npm**: `v9.x` or higher
+- **WebCam Hardware**: Required for facial recognition inference.
+
+### 1. Clone the Repository
+```bash
 git clone git@github.com:Asishranjansahu/SMART-CAMPUS-AUTOMATION-SYSTEM.git
 cd SMART-CAMPUS-AUTOMATION-SYSTEM
-2. Install Backend Dependencies & Start Server
+```
+
+### 2. Install Backend Dependencies & Start Server
 Open a terminal and start the backend service:
-code
-Bash
+```bash
 cd server
 npm install
 npm start
-🟢 Backend status: Express and Socket.IO running on http://localhost:5000
-3. Install Frontend Dependencies & Start Client
+```
+
+### 3. Install Frontend Dependencies & Start Client
 Open a second terminal in the project root:
-code
-Bash
+```bash
 npm install
 npm run dev
-🟢 Frontend status: Vite dev server running on http://localhost:5173
-⚡ Single-Command Concurrent Launch
-To launch both the frontend client and backend server simultaneously:
-Install concurrently in the root directory:
-code
-Bash
-npm install -D concurrently
-Add the following to the "scripts" block in your root package.json:
-code
-JSON
-"scripts": {
-  "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-  "dev:client": "vite",
-  "dev:server": "cd server && npm start",
-  "build": "vite build",
-  "preview": "vite preview"
-}
-Launch both services with one command:
-code
-Bash
-npm run dev
-⚙️ Environment Configuration
-Frontend Configuration (.env)
-code
-Env
+```
+
+---
+
+## ⚙️ Environment Configuration
+
+### Frontend Configuration (`.env`)
+```env
 VITE_API_BASE_URL=http://localhost:5000
 VITE_SOCKET_SERVER_URL=http://localhost:5000
-Backend Configuration (server/.env)
-code
-Env
+```
+
+### Backend Configuration (`server/.env`)
+```env
 PORT=5000
 NODE_ENV=development
 CORS_ORIGIN=http://localhost:5173
-📡 API & Event Contracts
-🌐 REST API Endpoints
-User Authentication
-code
-Http
+```
+
+---
+
+## 📡 API & Event Contracts
+
+### REST API Endpoints
+
+#### User Authentication
+```http
 POST /api/auth/login
 Content-Type: application/json
 
@@ -224,21 +235,10 @@ Content-Type: application/json
   "username": "student@campus.edu",
   "password": "password123"
 }
-Response (200 OK):
-code
-JSON
-{
-  "status": "success",
-  "data": {
-    "id": "USR-1",
-    "name": "Alex Mercer",
-    "role": "student",
-    "studentId": "STU-8823"
-  }
-}
-Attendance Verification
-code
-Http
+```
+
+#### Attendance Verification
+```http
 POST /api/attendance/verify
 Content-Type: application/json
 
@@ -246,51 +246,59 @@ Content-Type: application/json
   "studentId": "STU-8823",
   "studentName": "Alex Mercer"
 }
-⚡ WebSocket Event Specification (Socket.IO)
-Event Channel	Direction	Payload Structure	Action Triggered
-transport:telemetry	Server ➔ Client	[{ id, route, lat, lng, speed, status }]	Periodic GPS fleet coordinate stream
-dustbin:update	Server ➔ Client	{ id, fillLevel, status, lastUpdated }	Ultrasonic sensor fill-level update
-sos:trigger	Client ➔ Server	{ studentId, location, timestamp, level }	Critical safety emergency dispatch
-attendance:new	Server ➔ Client	{ id, studentId, studentName, timestamp }	Real-time attendance ledger broadcast
-🔒 Security & Privacy Architecture
-Client-Side Edge AI Inference:
-Facial landmark detection and recognition execute entirely within the client's browser using WebGL shaders.
-Raw video frames are discarded immediately after processing; only 128-dimensional floating-point embeddings are utilized.
-Role-Based Access Control (RBAC):
-Protected route guards (ProtectedRoute.jsx) restrict unauthorized access to administrative and campus security consoles.
-Atomic File Write Concurrency:
-Data mutations using LowDB execute atomic writes to data.json, preventing data race conditions across concurrent API requests.
-🚀 Production Build & Deployment
-Build Frontend Bundle:
-code
-Bash
+```
+
+---
+
+### WebSocket Event Specification (Socket.IO)
+
+| Event Channel | Direction | Payload Structure | Action Triggered |
+| :--- | :--- | :--- | :--- |
+| `transport:telemetry` | `Server ➔ Client` | `[{ id, route, lat, lng, speed, status }]` | Periodic GPS fleet coordinate stream |
+| `dustbin:update` | `Server ➔ Client` | `{ id, fillLevel, status, lastUpdated }` | Ultrasonic sensor fill-level update |
+| `sos:trigger` | `Client ➔ Server` | `{ studentId, location, timestamp, level }` | Critical safety emergency dispatch |
+| `attendance:new` | `Server ➔ Client` | `{ id, studentId, studentName, timestamp }` | Real-time attendance ledger broadcast |
+
+---
+
+## 🔒 Security & Privacy Architecture
+
+1. **Client-Side Edge AI Inference:**
+   - Facial landmark detection and recognition execute entirely within the client's browser using WebGL shaders.
+   - Raw video frames are discarded immediately after processing; only 128-dimensional floating-point embeddings are utilized.
+2. **Role-Based Access Control (RBAC):**
+   - Protected route guards (`ProtectedRoute.jsx`) restrict unauthorized access to administrative and campus security consoles.
+3. **Atomic File Write Concurrency:**
+   - Data mutations using `LowDB` execute atomic writes to `data.json`, preventing data race conditions across concurrent API requests.
+
+---
+
+## 🚀 Production Build & Deployment
+
+### Build Frontend Bundle:
+```bash
 npm run build
-Generates an optimized static distribution in dist/ ready for hosting on Vercel, Cloudflare Pages, or AWS S3.
-Production Process Management (PM2):
-code
-Bash
+```
+
+### Production Process Management (PM2):
+```bash
 cd server
 npm install -g pm2
 pm2 start server.js --name "scas-api"
-🤝 Contribution Guidelines
-Fork the repository.
-Create a Feature Branch:
-code
-Bash
-git checkout -b feat/telemetry-enhancement
-Commit Your Changes:
-code
-Bash
-git commit -m "feat: enhance live transit coordinate stream"
-Push to the Branch:
-code
-Bash
-git push origin feat/telemetry-enhancement
-Open a Pull Request describing your additions and testing steps.
-📄 License
-This project is licensed under the MIT License. See the LICENSE file for details.
-👨‍💻 Maintainer
-Asish Ranjan Sahu
-Lead Architect & Full Stack Developer
-GitHub: @Asishranjansahu
-Repository: SMART-CAMPUS-AUTOMATION-SYSTEM
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Maintainer
+
+**Asish Ranjan Sahu**  
+*Lead Architect & Full Stack Developer*
+
+- **GitHub:** [@Asishranjansahu](https://github.com/Asishranjansahu)  
+- **Repository:** [SMART-CAMPUS-AUTOMATION-SYSTEM](https://github.com/Asishranjansahu/SMART-CAMPUS-AUTOMATION-SYSTEM)
